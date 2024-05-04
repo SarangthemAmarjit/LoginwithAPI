@@ -5,9 +5,7 @@ import 'package:logindemo/loginpage.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Login Demo',
-    theme: ThemeData(
-      fontFamily: 'KulimPark',
-    ),
+    theme: ThemeData(fontFamily: 'KulimPark', useMaterial3: false),
     debugShowCheckedModeBanner: false,
     home: const LoginPage(),
   ));

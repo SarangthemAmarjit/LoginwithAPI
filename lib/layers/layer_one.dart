@@ -64,7 +64,7 @@ class LayerOne extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Card(
                       shape: RoundedRectangleBorder(
@@ -106,7 +106,6 @@ class LayerOne extends StatelessWidget {
                         style: TextStyle(
                             color: forgotPasswordText,
                             fontSize: 16,
-                            fontFamily: 'Poppins-Medium',
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -127,7 +126,6 @@ class LayerOne extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
-                              fontFamily: 'Poppins-Medium',
                               fontWeight: FontWeight.w400),
                         ),
                       ),
@@ -139,6 +137,9 @@ class LayerOne extends StatelessWidget {
                       height: 0.5,
                       width: 310,
                       color: inputBorder,
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,10 +160,7 @@ class LayerOne extends StatelessWidget {
                         ),
                         const Text(
                           'or',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Poppins-Regular',
-                              color: hintText),
+                          style: TextStyle(fontSize: 18, color: hintText),
                         ),
                         Container(
                           width: 59,
