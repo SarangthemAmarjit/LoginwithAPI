@@ -82,17 +82,16 @@ class GetxTapController extends GetxController {
   void forgetpasswordcheckmail({
     required String email,
   }) async {
-    final url = Uri.parse(
-        'http://10.10.1.44:8088/api/Registrationtables'); // Example endpoint
-
+    // Example endpoint
+    log(email.toString());
     try {
       final queryParameters = {
         "email": email,
       };
       final response = await http.post(
-          Uri.http('10.10.1.44:8088', '/api/UserAuths/ForgetPassword',
-              queryParameters),
-          headers: {"Content-Type": "application/json"});
+        Uri.http('10.10.1.44:8088', '/api/UserAuths/ForgetPassword',
+            queryParameters),
+      );
 
       if (response.statusCode == 200) {
         _isemailvalid = true;
