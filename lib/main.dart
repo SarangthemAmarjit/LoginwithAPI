@@ -1,12 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:logindemo/layers/layer_one.dart';
-import 'package:logindemo/loginpage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:logindemo/pages/forgetpasswordpage.dart';
+
+import 'package:logindemo/pages/loginpage.dart';
+import 'package:logindemo/router/router.dart';
 
 void main() {
-  runApp(MaterialApp(
-    title: 'Login Demo',
-    theme: ThemeData(fontFamily: 'KulimPark', useMaterial3: false),
-    debugShowCheckedModeBanner: false,
-    home: const LoginPage(),
-  ));
+  runApp(const MyApp());
+}
+
+final _appRouter = AppRouter();
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      // routerConfig: _appRouter.config(),
+      debugShowCheckedModeBanner: false,
+      title: 'LogIn Demo',
+      builder: EasyLoading.init(),
+      theme: ThemeData(
+          brightness: Brightness.light,
+          fontFamily: 'KulimPark',
+          useMaterial3: false
+          /* light theme settings */
+          ),
+      // darkTheme: ThemeData(brightness: Brightness.dark, fontFamily: 'KulimPark'
+      //     /* dark theme settings */
+      //     ),
+      home: ForgetPasswordPage(),
+    );
+  }
 }
