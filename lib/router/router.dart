@@ -16,5 +16,6 @@ class AppRouter extends $AppRouter {
 
         AutoRoute(path: '/registerpage', page: CreateAccountPage.page),
         AutoRoute(path: '/homepage', page: HomePage.page),
+        AutoRoute(path: '/forgetpassword', page: ForgetPasswordPage.page),
       ];
 }

@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // routerConfig: _appRouter.config(),
+    return MaterialApp.router(
+      routerConfig: _appRouter.config(),
       debugShowCheckedModeBanner: false,
       title: 'LogIn Demo',
       builder: EasyLoading.init(),
@@ -30,8 +30,6 @@ class MyApp extends StatelessWidget {
           ),
       // darkTheme: ThemeData(brightness: Brightness.dark, fontFamily: 'KulimPark'
       //     /* dark theme settings */
-      //     ),
-      home: ForgetPasswordPage(),
     );
   }
 }

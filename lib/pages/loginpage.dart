@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:logindemo/config.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
+
 import 'package:logindemo/router/router.gr.dart';
 
 @RoutePage()
@@ -154,7 +155,9 @@ class LoginPage extends StatelessWidget {
                                   height: 15,
                                 ),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.router.push(ForgetPasswordPage());
+                                  },
                                   child: const Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(

@@ -1,14 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:logindemo/config.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
 
+@RoutePage()
 class ForgetPasswordPage extends StatelessWidget {
   ForgetPasswordPage({super.key});
 
   TextEditingController forgetmail = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController confirmpasswordcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,7 @@ class ForgetPasswordPage extends StatelessWidget {
             fit: BoxFit.cover,
           )),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 100,
@@ -82,7 +88,9 @@ class ForgetPasswordPage extends StatelessWidget {
                                     //     searchtext: searchcontroller.text);
                                   },
                                   child: TextFormField(
-                                    controller: forgetmail,
+                                    controller: controller.isemailvalid
+                                        ? passwordcontroller
+                                        : forgetmail,
                                     keyboardType: TextInputType.emailAddress,
 
                                     onEditingComplete: () {},
@@ -129,6 +137,7 @@ class ForgetPasswordPage extends StatelessWidget {
                                           //     searchtext: searchcontroller.text);
                                         },
                                         child: TextFormField(
+                                          controller: confirmpasswordcontroller,
                                           keyboardType:
                                               TextInputType.emailAddress,
 
@@ -155,9 +164,17 @@ class ForgetPasswordPage extends StatelessWidget {
                               : const SizedBox(),
                           GestureDetector(
                             onTap: () {
-                              controller.forgetpasswordcheckmail(
-                                  email: forgetmail.text);
-                              forgetmail.clear();
+                              controller.isemailvalid
+                                  ? (passwordcontroller.text ==
+                                          confirmpasswordcontroller.text)
+                                      ? controller.changepassword(
+                                          newpassword: passwordcontroller.text)
+                                      : EasyLoading.showError(
+                                          'Confirm Password Not Same')
+                                  : controller
+                                      .forgetpasswordcheckmail(
+                                          email: forgetmail.text)
+                                      .then((value) => forgetmail.clear());
                             },
                             child: Padding(
                               padding:
