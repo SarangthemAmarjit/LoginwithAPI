@@ -41,6 +41,7 @@ dependencies:
   http: ^1.2.1
   file_picker: ^8.0.3
   mime_type: ^1.0.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

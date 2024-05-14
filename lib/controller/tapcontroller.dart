@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:logindemo/constant/constant.dart';
 import 'package:logindemo/model/model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetxTapController extends GetxController {
   final BuildContext context;
@@ -18,16 +20,57 @@ class GetxTapController extends GetxController {
   GetxTapController({required this.context});
 
   bool _isemailvalid = false;
+  bool _islogin = false;
   String _validatedmail = '';
   Getuserdetails? _alluserdata;
-  Getuserdetails get alluserdata => _alluserdata!;
+  Getuserdetails? get alluserdata => _alluserdata;
 
   bool get isemailvalid => _isemailvalid;
+  bool get islogin => _islogin;
   String get validatedmail => _validatedmail;
+
+  void Checkloginstatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.containsKey('isLogin')) {
+      bool islogin = prefs.getBool('isLogin')!;
+      int id = prefs.getInt('id')!;
+      getdatabyid(id: id);
+      _islogin = islogin;
+      log(islogin.toString());
+      update();
+    } else {
+      _islogin = false;
+      log(_islogin.toString());
+      update();
+    }
+  }
+
+  void getdatabyid({required int id}) async {
+    try {
+      final url = Uri.parse('$createapi/$id');
+
+      final response = await http.get(
+        url,
+      );
+
+      if (response.statusCode == 200) {
+        var alldata = getuserdetailsFromJson(response.body);
+        _alluserdata = alldata;
+        update();
+        log(_alluserdata!.firstName);
+      } else {
+        EasyLoading.showError(response.body);
+      }
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      log(e.toString());
+    }
+  }
 
   void login({required String email, required String password}) async {
     final url = Uri.parse(loginapi); // Example endpoint
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final body = jsonEncode({
       'email': email,
       'hashedPassword': password,
@@ -40,9 +83,12 @@ class GetxTapController extends GetxController {
       if (response.statusCode == 200) {
         var alldata = getuserdetailsFromJson(response.body);
         _alluserdata = alldata;
+
+        prefs.setBool('isLogin', true);
+        prefs.setInt('id', alldata.id);
+        _islogin = true;
         update();
 
-        context.router.replaceNamed('/homepage');
         EasyLoading.showSuccess('Login Successfully');
       } else {
         EasyLoading.showError(response.body);
@@ -76,7 +122,7 @@ class GetxTapController extends GetxController {
           headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode == 200) {
-        context.router.replaceNamed('/');
+        Checkloginstatus();
         EasyLoading.showSuccess('Account Created Successfully');
       } else {
         EasyLoading.showError(response.body);

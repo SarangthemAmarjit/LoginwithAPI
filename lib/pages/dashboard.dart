@@ -80,29 +80,33 @@ class _FilePickerDemoState extends State<HomePage> {
         title: const Text('File Metadata Checker'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Welcome ${controller.alluserdata.firstName}',
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 100,
-            ),
-            ElevatedButton(
-              onPressed: _openFilePicker,
-              child: const Text('Select File'),
-            ),
-            const SizedBox(height: 20),
-            Text('File Name: $_fileName'),
-            Text('File Path: $_filePath'),
-            Text('File Size: $_fileSize'),
-            Text('Last Modified: $_lastModified'),
-            Text('Actual Extension: $_actualExtension'),
-            Text('Mime Type: $_mime'),
-          ],
-        ),
+        child: controller.alluserdata == null
+            ? const SizedBox(
+                height: 70, width: 70, child: CircularProgressIndicator())
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Welcome ${controller.alluserdata!.firstName}',
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  ElevatedButton(
+                    onPressed: _openFilePicker,
+                    child: const Text('Select File'),
+                  ),
+                  const SizedBox(height: 20),
+                  Text('File Name: $_fileName'),
+                  Text('File Path: $_filePath'),
+                  Text('File Size: $_fileSize'),
+                  Text('Last Modified: $_lastModified'),
+                  Text('Actual Extension: $_actualExtension'),
+                  Text('Mime Type: $_mime'),
+                ],
+              ),
       ),
     );
   }
