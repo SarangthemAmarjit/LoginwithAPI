@@ -99,6 +99,14 @@ class GetxTapController extends GetxController {
     }
   }
 
+  void logoutaccount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
+    _islogin = false;
+    update();
+  }
+
   void createaccount(
       {required String email,
       required String firstname,
