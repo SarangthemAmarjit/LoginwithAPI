@@ -10,20 +10,8 @@ import 'package:logindemo/controller/tapcontroller.dart';
 import 'package:logindemo/router/router.gr.dart';
 
 @RoutePage()
-class AuthFlowPage extends StatefulWidget {
+class AuthFlowPage extends StatelessWidget {
   const AuthFlowPage({super.key});
-
-  @override
-  State<AuthFlowPage> createState() => _AuthFlowPageState();
-}
-
-class _AuthFlowPageState extends State<AuthFlowPage> {
-  @override
-  void initState() {
-    GetxTapController controller = Get.put(GetxTapController(context: context));
-    controller.Checkloginstatus();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +19,10 @@ class _AuthFlowPageState extends State<AuthFlowPage> {
 
     return GetBuilder<GetxTapController>(builder: (_) {
       return AutoRouter.declarative(routes: (context) {
-        if (controller.islogin) {
+        log("Auth Flow ${controller.islogin.toString()}");
+        if (controller.islogin == null) {
+          return [const LoadingPage()];
+        } else if (controller.islogin!) {
           return [const HomePage()];
         } else {
           return [LoginPage()];
