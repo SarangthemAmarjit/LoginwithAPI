@@ -94,16 +94,20 @@ class CreateAccountPage extends StatelessWidget {
                                           height: 43,
                                           child: Focus(
                                             onFocusChange: (value) {
-                                              // gcontroller.onfocuschange(
-                                              //     value: value,
-                                              //     searchtext: searchcontroller.text);
+                                              controller.firstnameonfocuschange(
+                                                  value: value,
+                                                  searchtext:
+                                                      firstnamecontroller.text);
                                             },
                                             child: TextFormField(
                                               keyboardType: TextInputType.name,
                                               controller: firstnamecontroller,
                                               onEditingComplete: () {},
                                               // controller: searchcontroller,
-                                              onChanged: ((value) {}),
+                                              onChanged: ((value) {
+                                                controller
+                                                    .validatefirstname(value);
+                                              }),
                                               decoration: InputDecoration(
                                                   contentPadding:
                                                       const EdgeInsets.only(
@@ -122,8 +126,29 @@ class CreateAccountPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 20,
+                                      if (controller.firstnamevaliderror !=
+                                          null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1, left: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                controller.firstnamevaliderror!,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height:
+                                            controller.firstnamevaliderror !=
+                                                    null
+                                                ? 10
+                                                : 20,
                                       ),
                                       Card(
                                         shape: RoundedRectangleBorder(
@@ -139,16 +164,20 @@ class CreateAccountPage extends StatelessWidget {
                                           height: 43,
                                           child: Focus(
                                             onFocusChange: (value) {
-                                              // gcontroller.onfocuschange(
-                                              //     value: value,
-                                              //     searchtext: searchcontroller.text);
+                                              controller.lastnameonfocuschange(
+                                                  value: value,
+                                                  searchtext:
+                                                      lastnamecontroller.text);
                                             },
                                             child: TextFormField(
                                               keyboardType: TextInputType.name,
                                               controller: lastnamecontroller,
                                               onEditingComplete: () {},
                                               // controller: searchcontroller,
-                                              onChanged: ((value) {}),
+                                              onChanged: ((value) {
+                                                controller
+                                                    .validatelastname(value);
+                                              }),
                                               decoration: InputDecoration(
                                                   contentPadding:
                                                       const EdgeInsets.only(
@@ -167,8 +196,27 @@ class CreateAccountPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 20,
+                                      if (controller.lastnamevaliderror != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1, left: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                controller.lastnamevaliderror!,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height: controller.lastnamevaliderror !=
+                                                null
+                                            ? 10
+                                            : 20,
                                       ),
                                       Card(
                                         shape: RoundedRectangleBorder(
@@ -184,9 +232,10 @@ class CreateAccountPage extends StatelessWidget {
                                           height: 43,
                                           child: Focus(
                                             onFocusChange: (value) {
-                                              // gcontroller.onfocuschange(
-                                              //     value: value,
-                                              //     searchtext: searchcontroller.text);
+                                              controller.emailonfocuschange(
+                                                  value: value,
+                                                  searchtext:
+                                                      mailcontroller.text);
                                             },
                                             child: TextFormField(
                                               keyboardType:
@@ -194,10 +243,10 @@ class CreateAccountPage extends StatelessWidget {
                                               controller: mailcontroller,
                                               onEditingComplete: () {},
                                               // controller: searchcontroller,
-                                              onChanged:
-                                                  controller.validateEmail,
-                                              validator:
-                                                  controller.validateEmail,
+                                              onChanged: (value) {
+                                                controller.validateEmail(value);
+                                              },
+
                                               decoration: InputDecoration(
                                                   contentPadding:
                                                       const EdgeInsets.only(
@@ -217,9 +266,27 @@ class CreateAccountPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      Text(controller.emailvalidateerror),
-                                      const SizedBox(
-                                        height: 20,
+                                      if (controller.emailvaliderror != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1, left: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                controller.emailvaliderror!,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height:
+                                            controller.emailvaliderror != null
+                                                ? 10
+                                                : 20,
                                       ),
                                       Card(
                                         shape: RoundedRectangleBorder(
@@ -235,11 +302,13 @@ class CreateAccountPage extends StatelessWidget {
                                           height: 43,
                                           child: Focus(
                                             onFocusChange: (value) {
-                                              // gcontroller.onfocuschange(
-                                              //     value: value,
-                                              //     searchtext: searchcontroller.text);
+                                              controller.passwordonfocuschange(
+                                                  value: value,
+                                                  searchtext:
+                                                      passwordcontroller.text);
                                             },
                                             child: TextFormField(
+                                              obscureText: true,
                                               keyboardType:
                                                   TextInputType.visiblePassword,
                                               controller: passwordcontroller,
@@ -247,7 +316,10 @@ class CreateAccountPage extends StatelessWidget {
 
                                               onEditingComplete: () {},
                                               // controller: searchcontroller,
-                                              onChanged: ((value) {}),
+                                              onChanged: ((value) {
+                                                controller
+                                                    .validatepassword(value);
+                                              }),
                                               decoration: InputDecoration(
                                                   contentPadding:
                                                       const EdgeInsets.only(
@@ -266,8 +338,30 @@ class CreateAccountPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 20,
+                                      if (controller.passwordnamevaliderror !=
+                                          null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1, left: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                controller
+                                                    .passwordnamevaliderror!,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height:
+                                            controller.passwordnamevaliderror !=
+                                                    null
+                                                ? 10
+                                                : 20,
                                       ),
                                       Card(
                                         shape: RoundedRectangleBorder(
@@ -283,9 +377,10 @@ class CreateAccountPage extends StatelessWidget {
                                           height: 43,
                                           child: Focus(
                                             onFocusChange: (value) {
-                                              // gcontroller.onfocuschange(
-                                              //     value: value,
-                                              //     searchtext: searchcontroller.text);
+                                              controller.phoneonfocuschange(
+                                                  value: value,
+                                                  searchtext:
+                                                      phonecontroller.text);
                                             },
                                             child: TextFormField(
                                               keyboardType:
@@ -293,19 +388,22 @@ class CreateAccountPage extends StatelessWidget {
                                               controller: phonecontroller,
                                               onEditingComplete: () {},
                                               // controller: searchcontroller,
-                                              onChanged: ((value) {}),
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'Please enter your phone number';
-                                                }
-                                                String pattern = r'^\d{10}$';
-                                                if (!RegExp(pattern)
-                                                    .hasMatch(value)) {
-                                                  return 'Please enter a valid 10-digit phone number';
-                                                }
-                                                return null;
-                                              },
+                                              onChanged: ((value) {
+                                                controller
+                                                    .validatephonenumber(value);
+                                              }),
+                                              // validator: (value) {
+                                              //   if (value == null ||
+                                              //       value.isEmpty) {
+                                              //     return 'Please enter your phone number';
+                                              //   }
+                                              //   String pattern = r'^\d{10}$';
+                                              //   if (!RegExp(pattern)
+                                              //       .hasMatch(value)) {
+                                              //     return 'Please enter a valid 10-digit phone number';
+                                              //   }
+                                              //   return null;
+                                              // },
                                               decoration: InputDecoration(
                                                   contentPadding:
                                                       const EdgeInsets.only(
@@ -325,8 +423,30 @@ class CreateAccountPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 15,
+                                      if (controller.numbernamevaliderror !=
+                                          null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1, left: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                controller
+                                                    .numbernamevaliderror!,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height:
+                                            controller.numbernamevaliderror !=
+                                                    null
+                                                ? 10
+                                                : 20,
                                       ),
                                       Card(
                                         shape: RoundedRectangleBorder(
@@ -342,9 +462,10 @@ class CreateAccountPage extends StatelessWidget {
                                           height: 43,
                                           child: Focus(
                                             onFocusChange: (value) {
-                                              // gcontroller.onfocuschange(
-                                              //     value: value,
-                                              //     searchtext: searchcontroller.text);
+                                              controller.addressonfocuschange(
+                                                  value: value,
+                                                  searchtext:
+                                                      addresscontroller.text);
                                             },
                                             child: TextFormField(
                                               keyboardType:
@@ -352,7 +473,10 @@ class CreateAccountPage extends StatelessWidget {
                                               controller: addresscontroller,
                                               onEditingComplete: () {},
                                               // controller: searchcontroller,
-                                              onChanged: ((value) {}),
+                                              onChanged: ((value) {
+                                                controller
+                                                    .validateaddresss(value);
+                                              }),
                                               decoration: InputDecoration(
                                                   contentPadding:
                                                       const EdgeInsets.only(
@@ -371,26 +495,76 @@ class CreateAccountPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 20,
+                                      if (controller.addressvaliderror != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1, left: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                controller.addressvaliderror!,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      SizedBox(
+                                        height:
+                                            controller.addressvaliderror != null
+                                                ? 10
+                                                : 20,
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            _formKey.currentState!.save();
-                                            controller.createaccount(
-                                                email: mailcontroller.text,
-                                                firstname:
-                                                    firstnamecontroller.text,
-                                                lastname:
-                                                    lastnamecontroller.text,
-                                                address: addresscontroller.text,
-                                                number: phonecontroller.text,
-                                                password:
-                                                    passwordcontroller.text);
-                                            // Process the data further if needed
+                                          if (controller.firstnamevaliderror == null &&
+                                              controller.lastnamevaliderror ==
+                                                  null &&
+                                              controller.firstnamevaliderror ==
+                                                  null &&
+                                              controller.lastnamevaliderror ==
+                                                  null &&
+                                              controller.firstnamevaliderror ==
+                                                  null &&
+                                              controller.lastnamevaliderror ==
+                                                  null) {
+                                            if (firstnamecontroller
+                                                    .text.isEmpty &&
+                                                lastnamecontroller
+                                                    .text.isEmpty &&
+                                                mailcontroller.text.isEmpty &&
+                                                passwordcontroller
+                                                    .text.isEmpty &&
+                                                phonecontroller.text.isEmpty &&
+                                                addresscontroller
+                                                    .text.isEmpty) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      content: Text(
+                                                        'All Fields Are Mandatory',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'KulimPark'),
+                                                      )));
+                                            } else {
+                                              controller.createaccount(
+                                                  email: mailcontroller.text,
+                                                  firstname:
+                                                      firstnamecontroller.text,
+                                                  lastname:
+                                                      lastnamecontroller.text,
+                                                  address:
+                                                      addresscontroller.text,
+                                                  number: phonecontroller.text,
+                                                  password:
+                                                      passwordcontroller.text);
+                                            }
                                           }
+                                          // Process the data further if needed
                                         },
                                         child: Container(
                                           width:

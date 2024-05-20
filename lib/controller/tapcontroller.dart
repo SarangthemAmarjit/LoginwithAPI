@@ -19,15 +19,34 @@ class GetxTapController extends GetxController {
 
   GetxTapController({required this.context});
 
+
+  bool _isfocusontextfield = false;
+  bool get isfocusontextfield => _isfocusontextfield;
   bool _isemailvalid = false;
   bool? _islogin;
   bool _islogingdataloaded = false;
   String _validatedmail = '';
   Getuserdetails? _alluserdata;
   Getuserdetails? get alluserdata => _alluserdata;
-  String _emailvalidateerror = '';
 
-  String get emailvalidateerror => _emailvalidateerror;
+  String? _firstnamevaliderror;
+  String? get firstnamevaliderror => _firstnamevaliderror;
+
+    String? _lastnamevaliderror;
+  String? get lastnamevaliderror => _lastnamevaliderror;
+
+    String? _passwordnamevaliderror;
+  String? get passwordnamevaliderror => _passwordnamevaliderror;
+
+    String? _numbernamevaliderror;
+  String? get numbernamevaliderror => _numbernamevaliderror;
+
+     String? _addressvaliderror;
+  String? get addressvaliderror => _addressvaliderror;
+
+  String? _emailvaliderror;
+  String? get emailvaliderror => _emailvaliderror;
+
   var isDataLoading = false.obs;
   bool get isemailvalid => _isemailvalid;
   bool? get islogin => _islogin;
@@ -63,17 +82,255 @@ class GetxTapController extends GetxController {
       update();
     }
   }
+  void validatefirstname(String value) {
+    // Reset previous validation error
 
-  String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      _emailvalidateerror = 'Please enter your email';
+    _firstnamevaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _firstnamevaliderror = 'First Name Field Cannot be Empty';
+      update();
+
+      return;
     }
-    String pattern = r'\w+@\w+\.\w+';
-    if (!RegExp(pattern).hasMatch(value!)) {
-      _emailvalidateerror = 'Please enter a valid email address';
+    String pattern = r'^[A-Z][a-zA-Z0-9\s]*$';
+    if (!RegExp(pattern).hasMatch(value)) {
+    
+        _firstnamevaliderror = 'The first letter must be capitalized';
+    
+      return;
     }
-    return null;
+    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+      _firstnamevaliderror = 'Avoid special characters and white spaces';
+      update();
+    }
+    return;
   }
+
+    void validatelastname(String value) {
+    // Reset previous validation error
+
+    _lastnamevaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _lastnamevaliderror = 'Last Name Field Cannot be Empty';
+      update();
+
+      return;
+    }
+    String pattern = r'^[A-Z][a-zA-Z0-9\s]*$';
+    if (!RegExp(pattern).hasMatch(value)) {
+    
+        _lastnamevaliderror = 'The first letter must be capitalized';
+    
+      return;
+    }
+    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+      _lastnamevaliderror = 'Avoid special characters and white spaces';
+      update();
+    }
+    return;
+  }
+
+
+    void validatephonenumber(String value) {
+    // Reset previous validation error
+
+    _numbernamevaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _numbernamevaliderror = 'Please enter your phone number';
+      update();
+
+      return;
+    }
+ String pattern = r'^(?:\(\d{3}\)|\d{3}-)\d{3}-\d{4}$|^\d{10}$';
+    if (!RegExp(pattern).hasMatch(value)) {
+    
+        _numbernamevaliderror = 'Please enter a valid phone number';
+    
+      return;
+    }
+ 
+    return;
+  }
+
+      void validateaddresss(String value) {
+    // Reset previous validation error
+
+    _addressvaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _addressvaliderror = 'Please enter your address';
+      update();
+
+      return;
+    }
+ String pattern = r'^[a-zA-Z0-9\s,.\-]{3,}$';
+    if (!RegExp(pattern).hasMatch(value)) {
+    
+        _addressvaliderror = 'Please enter a valid address';
+    
+      return;
+    }
+ 
+    return;
+  }
+   validatepassword(String value) {
+    // Reset previous validation error
+
+    _passwordnamevaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _passwordnamevaliderror = 'Password is required';
+      update();
+
+      return;
+    }
+
+   
+    if (!RegExp(r'.{8,}').hasMatch(value)) {
+      _passwordnamevaliderror = 'Password must be at least 8 characters long';
+      update();
+      return;
+    }
+
+        if (!RegExp(r'(?=.*[A-Z])').hasMatch(value)) {
+      _passwordnamevaliderror = 'At least one uppercase letter is required';
+      update();
+      return;
+    }
+
+         if (!RegExp(r'(?=.*[a-z])').hasMatch(value)) {
+      _passwordnamevaliderror = 'At least one lowercase letter is required';
+      update();
+      return;
+    }
+
+            if (!RegExp(r'(?=.*\d)').hasMatch(value)) {
+      _passwordnamevaliderror = 'At least one digit is required';
+      update();
+      return;
+    }
+    String specialCharPattern = r'(?=.*[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?])';
+                if (!RegExp(specialCharPattern).hasMatch(value)) {
+      _passwordnamevaliderror = 'At least one special character is required';
+      update();
+      return;
+    }
+    
+    return;
+  }
+
+
+  
+  void emailonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _emailvaliderror = null;
+   
+        update();
+      }
+    }
+  }
+    void firstnameonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _firstnamevaliderror = null;
+   
+        update();
+      }
+    }
+  }
+    void lastnameonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _lastnamevaliderror = null;
+   
+        update();
+      }
+    }
+  }
+    void passwordonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _passwordnamevaliderror = null;
+   
+        update();
+      }
+    }
+  }
+    void phoneonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _numbernamevaliderror = null;
+   
+        update();
+      }
+    }
+  }
+    void addressonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _addressvaliderror = null;
+   
+        update();
+      }
+    }
+  }
+
+    void validateEmail(String value) {
+    // Reset previous validation error
+
+    _emailvaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _emailvaliderror = 'Email is Required';
+      update();
+
+      return;
+    }
+
+    // Check for length between 5 and 15 characters
+  String pattern = r'\w+@\w+\.\w+';
+    if (!RegExp(pattern).hasMatch(value)) {
+      _emailvaliderror = 'Please enter a valid email address';
+          update();
+    }
+     if (!RegExp(r'^[^\s]+$').hasMatch(value)) {
+      _emailvaliderror = 'Avoid white space';
+          update();
+    }
+
+    // Check for special characters or white spaces
+
+    return;
+  }
+
 
   void getdatabyid({required int id}) async {
     try {
