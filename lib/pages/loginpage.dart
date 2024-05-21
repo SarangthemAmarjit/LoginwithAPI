@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:logindemo/config.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
@@ -144,6 +145,17 @@ class LoginPage extends StatelessWidget {
                                           // controller: searchcontroller,
                                           onChanged: ((value) {}),
                                           decoration: InputDecoration(
+                                              suffixIcon: GestureDetector(
+                                                onTap: controller.toggleSignup,
+                                                child: Icon(
+                                                  controller.obscureTextPassword
+                                                      ? FontAwesomeIcons.eye
+                                                      : FontAwesomeIcons
+                                                          .eyeSlash,
+                                                  size: 15.0,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
                                               contentPadding:
                                                   const EdgeInsets.only(top: 7),
                                               prefixIcon:
@@ -234,6 +246,28 @@ class LoginPage extends StatelessWidget {
                               ),
                             )),
                       ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Login as Admin',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              ),
+                              Icon(Icons.arrow_forward_ios_rounded)
+                            ],
+                          )),
                     ),
                   )
                 ],

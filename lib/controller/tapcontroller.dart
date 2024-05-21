@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
-
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +19,6 @@ class GetxTapController extends GetxController {
 
   GetxTapController({required this.context});
 
-
   bool _isfocusontextfield = false;
   bool get isfocusontextfield => _isfocusontextfield;
   bool _isemailvalid = false;
@@ -29,19 +28,22 @@ class GetxTapController extends GetxController {
   Getuserdetails? _alluserdata;
   Getuserdetails? get alluserdata => _alluserdata;
 
+  bool _obscureTextPassword = true;
+  bool get obscureTextPassword => _obscureTextPassword;
+
   String? _firstnamevaliderror;
   String? get firstnamevaliderror => _firstnamevaliderror;
 
-    String? _lastnamevaliderror;
+  String? _lastnamevaliderror;
   String? get lastnamevaliderror => _lastnamevaliderror;
 
-    String? _passwordnamevaliderror;
+  String? _passwordnamevaliderror;
   String? get passwordnamevaliderror => _passwordnamevaliderror;
 
-    String? _numbernamevaliderror;
+  String? _numbernamevaliderror;
   String? get numbernamevaliderror => _numbernamevaliderror;
 
-     String? _addressvaliderror;
+  String? _addressvaliderror;
   String? get addressvaliderror => _addressvaliderror;
 
   String? _emailvaliderror;
@@ -82,6 +84,7 @@ class GetxTapController extends GetxController {
       update();
     }
   }
+
   void validatefirstname(String value) {
     // Reset previous validation error
 
@@ -97,9 +100,8 @@ class GetxTapController extends GetxController {
     }
     String pattern = r'^[A-Z][a-zA-Z0-9\s]*$';
     if (!RegExp(pattern).hasMatch(value)) {
-    
-        _firstnamevaliderror = 'The first letter must be capitalized';
-    
+      _firstnamevaliderror = 'The first letter must be capitalized';
+
       return;
     }
     if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
@@ -109,7 +111,7 @@ class GetxTapController extends GetxController {
     return;
   }
 
-    void validatelastname(String value) {
+  void validatelastname(String value) {
     // Reset previous validation error
 
     _lastnamevaliderror = null;
@@ -124,9 +126,8 @@ class GetxTapController extends GetxController {
     }
     String pattern = r'^[A-Z][a-zA-Z0-9\s]*$';
     if (!RegExp(pattern).hasMatch(value)) {
-    
-        _lastnamevaliderror = 'The first letter must be capitalized';
-    
+      _lastnamevaliderror = 'The first letter must be capitalized';
+
       return;
     }
     if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
@@ -136,8 +137,7 @@ class GetxTapController extends GetxController {
     return;
   }
 
-
-    void validatephonenumber(String value) {
+  void validatephonenumber(String value) {
     // Reset previous validation error
 
     _numbernamevaliderror = null;
@@ -150,18 +150,17 @@ class GetxTapController extends GetxController {
 
       return;
     }
- String pattern = r'^(?:\(\d{3}\)|\d{3}-)\d{3}-\d{4}$|^\d{10}$';
+    String pattern = r'^(?:\(\d{3}\)|\d{3}-)\d{3}-\d{4}$|^\d{10}$';
     if (!RegExp(pattern).hasMatch(value)) {
-    
-        _numbernamevaliderror = 'Please enter a valid phone number';
-    
+      _numbernamevaliderror = 'Please enter a valid phone number';
+
       return;
     }
- 
+
     return;
   }
 
-      void validateaddresss(String value) {
+  void validateaddresss(String value) {
     // Reset previous validation error
 
     _addressvaliderror = null;
@@ -174,17 +173,17 @@ class GetxTapController extends GetxController {
 
       return;
     }
- String pattern = r'^[a-zA-Z0-9\s,.\-]{3,}$';
+    String pattern = r'^[a-zA-Z0-9\s,.\-]{3,}$';
     if (!RegExp(pattern).hasMatch(value)) {
-    
-        _addressvaliderror = 'Please enter a valid address';
-    
+      _addressvaliderror = 'Please enter a valid address';
+
       return;
     }
- 
+
     return;
   }
-   validatepassword(String value) {
+
+  validatepassword(String value) {
     // Reset previous validation error
 
     _passwordnamevaliderror = null;
@@ -198,110 +197,115 @@ class GetxTapController extends GetxController {
       return;
     }
 
-   
     if (!RegExp(r'.{8,}').hasMatch(value)) {
       _passwordnamevaliderror = 'Password must be at least 8 characters long';
       update();
       return;
     }
 
-        if (!RegExp(r'(?=.*[A-Z])').hasMatch(value)) {
+    if (!RegExp(r'(?=.*[A-Z])').hasMatch(value)) {
       _passwordnamevaliderror = 'At least one uppercase letter is required';
       update();
       return;
     }
 
-         if (!RegExp(r'(?=.*[a-z])').hasMatch(value)) {
+    if (!RegExp(r'(?=.*[a-z])').hasMatch(value)) {
       _passwordnamevaliderror = 'At least one lowercase letter is required';
       update();
       return;
     }
 
-            if (!RegExp(r'(?=.*\d)').hasMatch(value)) {
+    if (!RegExp(r'(?=.*\d)').hasMatch(value)) {
       _passwordnamevaliderror = 'At least one digit is required';
       update();
       return;
     }
     String specialCharPattern = r'(?=.*[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?])';
-                if (!RegExp(specialCharPattern).hasMatch(value)) {
+    if (!RegExp(specialCharPattern).hasMatch(value)) {
       _passwordnamevaliderror = 'At least one special character is required';
       update();
       return;
     }
-    
+
     return;
   }
 
-
-  
   void emailonfocuschange({required bool value, required String searchtext}) {
     _isfocusontextfield = value;
     update();
     if (_isfocusontextfield == false) {
       if (searchtext.isEmpty) {
         _emailvaliderror = null;
-   
-        update();
-      }
-    }
-  }
-    void firstnameonfocuschange({required bool value, required String searchtext}) {
-    _isfocusontextfield = value;
-    update();
-    if (_isfocusontextfield == false) {
-      if (searchtext.isEmpty) {
-        _firstnamevaliderror = null;
-   
-        update();
-      }
-    }
-  }
-    void lastnameonfocuschange({required bool value, required String searchtext}) {
-    _isfocusontextfield = value;
-    update();
-    if (_isfocusontextfield == false) {
-      if (searchtext.isEmpty) {
-        _lastnamevaliderror = null;
-   
-        update();
-      }
-    }
-  }
-    void passwordonfocuschange({required bool value, required String searchtext}) {
-    _isfocusontextfield = value;
-    update();
-    if (_isfocusontextfield == false) {
-      if (searchtext.isEmpty) {
-        _passwordnamevaliderror = null;
-   
-        update();
-      }
-    }
-  }
-    void phoneonfocuschange({required bool value, required String searchtext}) {
-    _isfocusontextfield = value;
-    update();
-    if (_isfocusontextfield == false) {
-      if (searchtext.isEmpty) {
-        _numbernamevaliderror = null;
-   
-        update();
-      }
-    }
-  }
-    void addressonfocuschange({required bool value, required String searchtext}) {
-    _isfocusontextfield = value;
-    update();
-    if (_isfocusontextfield == false) {
-      if (searchtext.isEmpty) {
-        _addressvaliderror = null;
-   
+
         update();
       }
     }
   }
 
-    void validateEmail(String value) {
+  void firstnameonfocuschange(
+      {required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _firstnamevaliderror = null;
+
+        update();
+      }
+    }
+  }
+
+  void lastnameonfocuschange(
+      {required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _lastnamevaliderror = null;
+
+        update();
+      }
+    }
+  }
+
+  void passwordonfocuschange(
+      {required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _passwordnamevaliderror = null;
+
+        update();
+      }
+    }
+  }
+
+  void phoneonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _numbernamevaliderror = null;
+
+        update();
+      }
+    }
+  }
+
+  void addressonfocuschange({required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _addressvaliderror = null;
+
+        update();
+      }
+    }
+  }
+
+  void validateEmail(String value) {
     // Reset previous validation error
 
     _emailvaliderror = null;
@@ -316,21 +320,20 @@ class GetxTapController extends GetxController {
     }
 
     // Check for length between 5 and 15 characters
-  String pattern = r'\w+@\w+\.\w+';
+    String pattern = r'\w+@\w+\.\w+';
     if (!RegExp(pattern).hasMatch(value)) {
       _emailvaliderror = 'Please enter a valid email address';
-          update();
+      update();
     }
-     if (!RegExp(r'^[^\s]+$').hasMatch(value)) {
+    if (!RegExp(r'^[^\s]+$').hasMatch(value)) {
       _emailvaliderror = 'Avoid white space';
-          update();
+      update();
     }
 
     // Check for special characters or white spaces
 
     return;
   }
-
 
   void getdatabyid({required int id}) async {
     try {
@@ -359,20 +362,10 @@ class GetxTapController extends GetxController {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-                Text("Loading, please wait..."),
-              ],
-            ),
+        return Center(
+          child: LoadingAnimationWidget.staggeredDotsWave(
+            color: Colors.white,
+            size: 50,
           ),
         );
       },
@@ -429,6 +422,7 @@ class GetxTapController extends GetxController {
       required String address,
       required String number,
       required String password}) async {
+    showLoadingDialog(context);
     final url = Uri.parse(createapi); // Example endpoint
 
     final body = jsonEncode({
@@ -445,12 +439,15 @@ class GetxTapController extends GetxController {
           headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode == 200) {
-        Checkloginstatus();
+        context.router.pop();
+        context.router.replaceNamed('/');
         EasyLoading.showSuccess('Account Created Successfully');
       } else {
+        context.router.pop();
         EasyLoading.showError(response.body);
       }
     } catch (e) {
+      context.router.pop();
       EasyLoading.showError(e.toString());
       log(e.toString());
     }
@@ -459,6 +456,7 @@ class GetxTapController extends GetxController {
   Future forgetpasswordcheckmail({
     required String email,
   }) async {
+    showLoadingDialog(context);
     // Example endpoint
 
     log(email.toString());
@@ -472,17 +470,25 @@ class GetxTapController extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        context.router.pop();
         _validatedmail = email;
 
         _isemailvalid = true;
         update();
       } else {
+        context.router.pop();
         EasyLoading.showError(response.body);
       }
     } catch (e) {
+      context.router.pop();
       EasyLoading.showError(e.toString());
       log(e.toString());
     }
+  }
+
+  void toggleSignup() {
+    _obscureTextPassword = !_obscureTextPassword;
+    update();
   }
 
   Future changepassword({

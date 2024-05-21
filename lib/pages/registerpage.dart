@@ -100,6 +100,8 @@ class CreateAccountPage extends StatelessWidget {
                                                       firstnamecontroller.text);
                                             },
                                             child: TextFormField(
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
                                               keyboardType: TextInputType.name,
                                               controller: firstnamecontroller,
                                               onEditingComplete: () {},
@@ -170,6 +172,8 @@ class CreateAccountPage extends StatelessWidget {
                                                       lastnamecontroller.text);
                                             },
                                             child: TextFormField(
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
                                               keyboardType: TextInputType.name,
                                               controller: lastnamecontroller,
                                               onEditingComplete: () {},
@@ -468,6 +472,8 @@ class CreateAccountPage extends StatelessWidget {
                                                       addresscontroller.text);
                                             },
                                             child: TextFormField(
+                                              textCapitalization:
+                                                  TextCapitalization.words,
                                               keyboardType:
                                                   TextInputType.streetAddress,
                                               controller: addresscontroller,
