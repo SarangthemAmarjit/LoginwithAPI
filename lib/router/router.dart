@@ -10,13 +10,13 @@ class AppRouter extends $AppRouter {
         //of the replaceInRouteName property
         AutoRoute(path: '/', page: AuthFlowPage.page, children: [
           AutoRoute(
-            path: 'loginpage',
-            page: LoginPage.page,
+            path: 'authpage',
+            page: AuthPage.page,
           ),
           AutoRoute(path: 'homepage', page: HomePage.page),
           AutoRoute(path: 'loadingpage', page: LoadingPage.page),
         ]),
-
+        AutoRoute(path: '/loginpage', page: LoginPage.page),
         AutoRoute(path: '/registerpage', page: CreateAccountPage.page),
 
         AutoRoute(path: '/forgetpassword', page: ForgetPasswordPage.page),

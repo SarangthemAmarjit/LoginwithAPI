@@ -69,8 +69,8 @@ class ForgetPasswordPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 20, top: 20),
                             child: Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7)),
@@ -82,11 +82,14 @@ class ForgetPasswordPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(7)),
                                 height: 43,
                                 child: Focus(
-                                  onFocusChange: (value) {
-                                    // gcontroller.onfocuschange(
-                                    //     value: value,
-                                    //     searchtext: searchcontroller.text);
-                                  },
+                                  onFocusChange: controller.isemailvalid
+                                      ? null
+                                      : (value) {
+                                          controller
+                                              .forgetpassemailonfocuschange(
+                                                  value: value,
+                                                  searchtext: forgetmail.text);
+                                        },
                                   child: TextFormField(
                                     controller: controller.isemailvalid
                                         ? passwordcontroller
@@ -95,7 +98,12 @@ class ForgetPasswordPage extends StatelessWidget {
 
                                     onEditingComplete: () {},
                                     // controller: searchcontroller,
-                                    onChanged: ((value) {}),
+                                    onChanged: controller.isemailvalid
+                                        ? null
+                                        : ((value) {
+                                            controller
+                                                .forgetpassvalidateEmail(value);
+                                          }),
                                     decoration: InputDecoration(
                                         contentPadding:
                                             const EdgeInsets.only(top: 7),
@@ -161,7 +169,26 @@ class ForgetPasswordPage extends StatelessWidget {
                                     ),
                                   ),
                                 )
-                              : const SizedBox(),
+                              : controller.forgetpassemailvaliderror != null
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, bottom: 15),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            controller
+                                                .forgetpassemailvaliderror!,
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox(
+                                      height: 20,
+                                    ),
                           GestureDetector(
                             onTap: () {
                               controller.isemailvalid

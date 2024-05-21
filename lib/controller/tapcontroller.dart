@@ -49,6 +49,12 @@ class GetxTapController extends GetxController {
   String? _emailvaliderror;
   String? get emailvaliderror => _emailvaliderror;
 
+  String? _loginemailvaliderror;
+  String? get loginemailvaliderror => _loginemailvaliderror;
+
+  String? _forgetpassemailvaliderror;
+  String? get forgetpassemailvaliderror => _forgetpassemailvaliderror;
+
   var isDataLoading = false.obs;
   bool get isemailvalid => _isemailvalid;
   bool? get islogin => _islogin;
@@ -242,6 +248,32 @@ class GetxTapController extends GetxController {
     }
   }
 
+  void loginemailonfocuschange(
+      {required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _loginemailvaliderror = null;
+
+        update();
+      }
+    }
+  }
+
+  void forgetpassemailonfocuschange(
+      {required bool value, required String searchtext}) {
+    _isfocusontextfield = value;
+    update();
+    if (_isfocusontextfield == false) {
+      if (searchtext.isEmpty) {
+        _forgetpassemailvaliderror = null;
+
+        update();
+      }
+    }
+  }
+
   void firstnameonfocuschange(
       {required bool value, required String searchtext}) {
     _isfocusontextfield = value;
@@ -303,6 +335,66 @@ class GetxTapController extends GetxController {
         update();
       }
     }
+  }
+
+  void loginvalidateEmail(String value) {
+    // Reset previous validation error
+
+    _loginemailvaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _loginemailvaliderror = 'Email is Required';
+      update();
+
+      return;
+    }
+
+    // Check for length between 5 and 15 characters
+    String pattern = r'\w+@\w+\.\w+';
+    if (!RegExp(pattern).hasMatch(value)) {
+      _loginemailvaliderror = 'Please enter a valid email address';
+      update();
+    }
+    if (!RegExp(r'^[^\s]+$').hasMatch(value)) {
+      _loginemailvaliderror = 'Avoid white space';
+      update();
+    }
+
+    // Check for special characters or white spaces
+
+    return;
+  }
+
+  void forgetpassvalidateEmail(String value) {
+    // Reset previous validation error
+
+    _forgetpassemailvaliderror = null;
+    update();
+
+    // Check for null or empty string
+    if (value.isEmpty) {
+      _forgetpassemailvaliderror = 'Email is Required';
+      update();
+
+      return;
+    }
+
+    // Check for length between 5 and 15 characters
+    String pattern = r'\w+@\w+\.\w+';
+    if (!RegExp(pattern).hasMatch(value)) {
+      _forgetpassemailvaliderror = 'Please enter a valid email address';
+      update();
+    }
+    if (!RegExp(r'^[^\s]+$').hasMatch(value)) {
+      _forgetpassemailvaliderror = 'Avoid white space';
+      update();
+    }
+
+    // Check for special characters or white spaces
+
+    return;
   }
 
   void validateEmail(String value) {

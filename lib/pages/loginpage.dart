@@ -90,9 +90,9 @@ class LoginPage extends StatelessWidget {
                                       height: 43,
                                       child: Focus(
                                         onFocusChange: (value) {
-                                          // gcontroller.onfocuschange(
-                                          //     value: value,
-                                          //     searchtext: searchcontroller.text);
+                                          controller.loginemailonfocuschange(
+                                              value: value,
+                                              searchtext: mailcontroller.text);
                                         },
                                         child: TextFormField(
                                           keyboardType:
@@ -100,7 +100,10 @@ class LoginPage extends StatelessWidget {
                                           controller: mailcontroller,
                                           onEditingComplete: () {},
                                           // controller: searchcontroller,
-                                          onChanged: ((value) {}),
+                                          onChanged: ((value) {
+                                            controller
+                                                .loginvalidateEmail(value);
+                                          }),
                                           decoration: InputDecoration(
                                               contentPadding:
                                                   const EdgeInsets.only(top: 7),
@@ -116,8 +119,27 @@ class LoginPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 20,
+                                  if (controller.loginemailvaliderror != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 1, left: 5),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            controller.loginemailvaliderror!,
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  SizedBox(
+                                    height:
+                                        controller.loginemailvaliderror != null
+                                            ? 10
+                                            : 20,
                                   ),
                                   Card(
                                     shape: RoundedRectangleBorder(
@@ -140,7 +162,8 @@ class LoginPage extends StatelessWidget {
                                           keyboardType:
                                               TextInputType.visiblePassword,
                                           controller: passwordcontroller,
-                                          obscureText: true,
+                                          obscureText:
+                                              controller.obscureTextPassword,
                                           onEditingComplete: () {},
                                           // controller: searchcontroller,
                                           onChanged: ((value) {}),
@@ -248,28 +271,6 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Login as Admin',
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                              Icon(Icons.arrow_forward_ios_rounded)
-                            ],
-                          )),
-                    ),
-                  )
                 ],
               ),
             ),

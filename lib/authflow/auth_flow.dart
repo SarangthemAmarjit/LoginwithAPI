@@ -25,7 +25,7 @@ class AuthFlowPage extends StatelessWidget {
         } else if (controller.islogin!) {
           return [const HomePage()];
         } else {
-          return [LoginPage()];
+          return [const AuthPage()];
         }
       });
     });
