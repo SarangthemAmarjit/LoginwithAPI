@@ -11,7 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:logindemo/constant/constant.dart';
-import 'package:logindemo/model/model.dart';
+import 'package:logindemo/model/usermodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetxTapController extends GetxController {
@@ -23,6 +23,10 @@ class GetxTapController extends GetxController {
   bool get isfocusontextfield => _isfocusontextfield;
   bool _isemailvalid = false;
   bool? _islogin;
+  bool? get islogin => _islogin;
+
+  bool _isuserlogin = false;
+  bool get isuserlogin => _isuserlogin;
   bool _islogingdataloaded = false;
   String _validatedmail = '';
   Getuserdetails? _alluserdata;
@@ -57,16 +61,16 @@ class GetxTapController extends GetxController {
 
   var isDataLoading = false.obs;
   bool get isemailvalid => _isemailvalid;
-  bool? get islogin => _islogin;
+
   String get validatedmail => _validatedmail;
   bool get islogingdataloaded => _islogingdataloaded;
   @override
   Future<void> onInit() async {
     super.onInit();
-    Checkloginstatus();
+    checkloginstatus();
   }
 
-  void Checkloginstatus() async {
+  void checkloginstatus() async {
     _islogingdataloaded = true;
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -74,14 +78,23 @@ class GetxTapController extends GetxController {
     log(_islogingdataloaded.toString());
 
     if (prefs.containsKey('isLogin')) {
-      bool islogin = prefs.getBool('isLogin')!;
-      int id = prefs.getInt('id')!;
-      getdatabyid(id: id);
-      _islogingdataloaded = false;
-      _islogin = islogin;
-      log(islogin.toString());
+      if (prefs.containsKey('user')) {
+        int id = prefs.getInt('userid')!;
+        getuserdatabyid(id: id);
+        _islogingdataloaded = false;
 
-      update();
+        _isuserlogin = true;
+
+        update();
+      } else {
+        int id = prefs.getInt('adminid')!;
+        getadmindatabyid(id: id);
+        _islogingdataloaded = false;
+
+        _isuserlogin = false;
+
+        update();
+      }
     } else {
       _islogingdataloaded = false;
       _islogin = false;
@@ -427,7 +440,29 @@ class GetxTapController extends GetxController {
     return;
   }
 
-  void getdatabyid({required int id}) async {
+  void getuserdatabyid({required int id}) async {
+    try {
+      final url = Uri.parse('$createapi/$id');
+
+      final response = await http.get(
+        url,
+      );
+
+      if (response.statusCode == 200) {
+        var alldata = getuserdetailsFromJson(response.body);
+        _alluserdata = alldata;
+        update();
+        log(_alluserdata!.firstName);
+      } else {
+        EasyLoading.showError(response.body);
+      }
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      log(e.toString());
+    }
+  }
+
+  void getadmindatabyid({required int id}) async {
     try {
       final url = Uri.parse('$createapi/$id');
 
@@ -478,11 +513,9 @@ class GetxTapController extends GetxController {
           headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode == 200) {
-        var alldata = getuserdetailsFromJson(response.body);
-        _alluserdata = alldata;
         context.router.pop();
         prefs.setBool('isLogin', true);
-        prefs.setInt('id', alldata.id);
+
         prefs.setBool('user', true);
         _islogin = true;
         update();
@@ -495,7 +528,7 @@ class GetxTapController extends GetxController {
     } catch (e) {
       context.router.pop();
       EasyLoading.showError(e.toString());
-      log(e.toString());
+      log("Exception $e");
     }
   }
 
@@ -629,7 +662,8 @@ class GetxTapController extends GetxController {
         _alluserdata = alldata;
         context.router.pop();
         prefs.setBool('isLogin', true);
-        prefs.setInt('id', alldata.id);
+        prefs.setInt('adminid', alldata.id);
+        prefs.setBool('isadminLogin', true);
         _islogin = true;
         update();
 
