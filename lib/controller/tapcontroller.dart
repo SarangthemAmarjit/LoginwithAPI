@@ -483,6 +483,7 @@ class GetxTapController extends GetxController {
         context.router.pop();
         prefs.setBool('isLogin', true);
         prefs.setInt('id', alldata.id);
+        prefs.setBool('user', true);
         _islogin = true;
         update();
 
@@ -603,6 +604,42 @@ class GetxTapController extends GetxController {
         EasyLoading.showError(response.body);
       }
     } catch (e) {
+      EasyLoading.showError(e.toString());
+      log(e.toString());
+    }
+  }
+
+  //ADMIN PANEL SECTION
+
+  void adminlogin({required String email, required String password}) async {
+    showLoadingDialog(context);
+    final url = Uri.parse(loginapi); // Example endpoint
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final body = jsonEncode({
+      'email': email,
+      'hashedPassword': password,
+    });
+
+    try {
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+
+      if (response.statusCode == 200) {
+        var alldata = getuserdetailsFromJson(response.body);
+        _alluserdata = alldata;
+        context.router.pop();
+        prefs.setBool('isLogin', true);
+        prefs.setInt('id', alldata.id);
+        _islogin = true;
+        update();
+
+        EasyLoading.showSuccess('Login Successfully');
+      } else {
+        context.router.pop();
+        EasyLoading.showError(response.body);
+      }
+    } catch (e) {
+      context.router.pop();
       EasyLoading.showError(e.toString());
       log(e.toString());
     }
