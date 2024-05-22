@@ -81,7 +81,7 @@ class AuthPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // context.router.replaceNamed('/adminloginpage');
+                        context.router.push(AdminPage());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(

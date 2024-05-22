@@ -20,8 +20,7 @@ class AdminPage extends StatelessWidget {
     GetxTapController controller = Get.put(GetxTapController(context: context));
     return Scaffold(
       body: GetBuilder<GetxTapController>(builder: (_) {
-        return SafeArea(
-            child: Container(
+        return Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
@@ -32,8 +31,9 @@ class AdminPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 100,
+              Image.asset(
+                'assets/images/admin2.png',
+                height: 250,
               ),
               const Text(
                 'ADMIN PANEL LOGIN',
@@ -88,6 +88,7 @@ class AdminPage extends StatelessWidget {
                                     // controller: searchcontroller,
                                     onChanged: ((value) {}),
                                     decoration: InputDecoration(
+                                        hintText: 'Enter Userid or email',
                                         contentPadding:
                                             const EdgeInsets.only(top: 7),
                                         prefixIcon: const Icon(Icons.person),
@@ -187,7 +188,7 @@ class AdminPage extends StatelessWidget {
               )
             ],
           ),
-        ));
+        );
       }),
     );
   }
