@@ -73,6 +73,7 @@ class GetxTapController extends GetxController {
 
   void _showLoadingDialog(BuildContext context) {
     showDialog(
+      useSafeArea: true,
       context: context,
       barrierDismissible: false, // Prevents dialog from being dismissed
       builder: (BuildContext context) {
@@ -80,21 +81,18 @@ class GetxTapController extends GetxController {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            height: 200,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Lottie.asset(
-                  'assets/images/loading.json',
-                  width: 100,
+                  backgroundLoading: true,
+                  'assets/images/loading2.json',
                   height: 100,
-                  fit: BoxFit.fill,
                 ),
-                const SizedBox(height: 20),
                 const Text(
-                  'Logging in...',
+                  'Please wait...',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -539,7 +537,8 @@ class GetxTapController extends GetxController {
   }
 
   void login({required String email, required String password}) async {
-    showLoadingDialog(context);
+    _showLoadingDialog(context);
+    await Future.delayed(const Duration(seconds: 3));
     final url = Uri.parse(loginapi); // Example endpoint
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final body = jsonEncode({
