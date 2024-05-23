@@ -19,7 +19,10 @@ class AuthFlowPage extends StatelessWidget {
 
     return GetBuilder<GetxTapController>(builder: (_) {
       return AutoRouter.declarative(routes: (context) {
-        if (controller.islogin!) {
+        log("Auth Flow ${controller.islogin.toString()}");
+        if (controller.islogin == null) {
+          return [const LoadingPage()];
+        } else if (controller.islogin!) {
           return [const HomePage()];
         } else {
           return [const AuthPage()];

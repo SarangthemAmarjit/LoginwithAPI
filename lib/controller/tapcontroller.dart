@@ -532,7 +532,7 @@ class GetxTapController extends GetxController {
 
   void login({required String email, required String password}) async {
     _showLoadingDialog(context);
-    await Future.delayed(const Duration(seconds: 3));
+    Future.delayed(const Duration(seconds: 3));
     final url = Uri.parse(loginapi); // Example endpoint
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final body = jsonEncode({
