@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:logindemo/constant/constant.dart';
 import 'package:logindemo/model/usermodel.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetxTapController extends GetxController {
@@ -68,6 +69,44 @@ class GetxTapController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     checkloginstatus();
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents dialog from being dismissed
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            height: 200,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset(
+                  'assets/images/loading.json',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.fill,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Logging in...',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void checkloginstatus() async {
@@ -513,9 +552,11 @@ class GetxTapController extends GetxController {
           headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode == 200) {
+        var alldata = getuserdetailsFromJson(response.body);
+        _alluserdata = alldata;
         context.router.pop();
         prefs.setBool('isLogin', true);
-
+        prefs.setInt('userid', alldata.id);
         prefs.setBool('user', true);
         _islogin = true;
         update();
