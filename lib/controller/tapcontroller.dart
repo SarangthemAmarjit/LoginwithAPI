@@ -88,7 +88,7 @@ class GetxTapController extends GetxController {
               children: [
                 Lottie.asset(
                   backgroundLoading: true,
-                  'assets/images/loading2.json',
+                  'assets/images/loading3.json',
                   height: 100,
                 ),
                 const Text(
