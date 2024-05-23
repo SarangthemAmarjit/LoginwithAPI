@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GetxTapController controller = Get.put(GetxTapController(context: context));
-    log(controller.islogingdataloaded.toString());
+
     return Scaffold(
       body: GetBuilder<GetxTapController>(builder: (_) {
         return Container(

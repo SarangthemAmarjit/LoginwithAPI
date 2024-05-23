@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logindemo/config.dart';
+
 import 'package:logindemo/router/router.gr.dart';
 
 @RoutePage()
@@ -81,7 +82,7 @@ class AuthPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        context.router.push(AdminPage());
+                        context.router.push(AdminloginPage());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(

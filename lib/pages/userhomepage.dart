@@ -9,14 +9,14 @@ import 'package:mime/mime.dart';
 import 'package:mime_type/mime_type.dart';
 
 @RoutePage()
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class UserhomePage extends StatefulWidget {
+  const UserhomePage({super.key});
 
   @override
   _FilePickerDemoState createState() => _FilePickerDemoState();
 }
 
-class _FilePickerDemoState extends State<HomePage> {
+class _FilePickerDemoState extends State<UserhomePage> {
   String _fileName = 'No file selected';
   String _filePath = '';
   String _fileSize = '';

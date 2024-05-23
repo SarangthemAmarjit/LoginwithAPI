@@ -28,7 +28,7 @@ class GetxTapController extends GetxController {
 
   bool _isuserlogin = false;
   bool get isuserlogin => _isuserlogin;
-  bool _islogingdataloaded = false;
+
   String _validatedmail = '';
   Getuserdetails? _alluserdata;
   Getuserdetails? get alluserdata => _alluserdata;
@@ -64,7 +64,7 @@ class GetxTapController extends GetxController {
   bool get isemailvalid => _isemailvalid;
 
   String get validatedmail => _validatedmail;
-  bool get islogingdataloaded => _islogingdataloaded;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -87,7 +87,6 @@ class GetxTapController extends GetxController {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Lottie.asset(
-                  backgroundLoading: true,
                   'assets/images/loading3.json',
                   height: 100,
                 ),
@@ -108,17 +107,14 @@ class GetxTapController extends GetxController {
   }
 
   void checkloginstatus() async {
-    _islogingdataloaded = true;
-    update();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    log(_islogingdataloaded.toString());
-
     if (prefs.containsKey('isLogin')) {
+      _islogin = true;
+      update();
       if (prefs.containsKey('user')) {
         int id = prefs.getInt('userid')!;
         getuserdatabyid(id: id);
-        _islogingdataloaded = false;
 
         _isuserlogin = true;
 
@@ -126,14 +122,12 @@ class GetxTapController extends GetxController {
       } else {
         int id = prefs.getInt('adminid')!;
         getadmindatabyid(id: id);
-        _islogingdataloaded = false;
 
         _isuserlogin = false;
 
         update();
       }
     } else {
-      _islogingdataloaded = false;
       _islogin = false;
       log(_islogin.toString());
 
@@ -558,6 +552,8 @@ class GetxTapController extends GetxController {
         prefs.setInt('userid', alldata.id);
         prefs.setBool('user', true);
         _islogin = true;
+        log('Login Successfully');
+        checkloginstatus();
         update();
 
         EasyLoading.showSuccess('Login Successfully');
@@ -573,12 +569,16 @@ class GetxTapController extends GetxController {
   }
 
   void logoutaccount() async {
-    _islogingdataloaded = false;
+    _showLoadingDialog(context);
+    await Future.delayed(const Duration(seconds: 2));
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
 
     _islogin = false;
+    _isuserlogin = false;
     update();
+    context.router.pop();
   }
 
   void createaccount(

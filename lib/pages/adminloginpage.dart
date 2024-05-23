@@ -8,8 +8,8 @@ import 'package:logindemo/config.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
 
 @RoutePage()
-class AdminPage extends StatelessWidget {
-  AdminPage({super.key});
+class AdminloginPage extends StatelessWidget {
+  AdminloginPage({super.key});
 
   TextEditingController forgetmail = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();

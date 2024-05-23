@@ -8,46 +8,47 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i10;
-import 'package:flutter/cupertino.dart' as _i11;
-import 'package:flutter/material.dart' as _i12;
+import 'package:auto_route/auto_route.dart' as _i11;
+import 'package:flutter/cupertino.dart' as _i12;
+import 'package:flutter/material.dart' as _i13;
 import 'package:logindemo/authflow/auth_flow.dart' as _i3;
-import 'package:logindemo/pages/admindashboard.dart' as _i2;
-import 'package:logindemo/pages/adminpage.dart' as _i1;
+import 'package:logindemo/pages/adminhomepage.dart' as _i1;
+import 'package:logindemo/pages/adminloginpage.dart' as _i2;
 import 'package:logindemo/pages/authpage.dart' as _i4;
-import 'package:logindemo/pages/dashboard.dart' as _i7;
 import 'package:logindemo/pages/forgetpasswordpage.dart' as _i6;
+import 'package:logindemo/pages/homepage.dart' as _i7;
 import 'package:logindemo/pages/loadingpage.dart' as _i8;
 import 'package:logindemo/pages/loginpage.dart' as _i9;
 import 'package:logindemo/pages/registerpage.dart' as _i5;
+import 'package:logindemo/pages/userhomepage.dart' as _i10;
 
-abstract class $AppRouter extends _i10.RootStackRouter {
+abstract class $AppRouter extends _i11.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i10.PageFactory> pagesMap = {
-    AdminPage.name: (routeData) {
-      final args =
-          routeData.argsAs<AdminPageArgs>(orElse: () => const AdminPageArgs());
-      return _i10.AutoRoutePage<dynamic>(
+  final Map<String, _i11.PageFactory> pagesMap = {
+    AdminhomePage.name: (routeData) {
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.AdminPage(key: args.key),
+        child: const _i1.AdminhomePage(),
       );
     },
-    AdminhomePage.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+    AdminloginPage.name: (routeData) {
+      final args = routeData.argsAs<AdminloginPageArgs>(
+          orElse: () => const AdminloginPageArgs());
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.AdminhomePage(),
+        child: _i2.AdminloginPage(key: args.key),
       );
     },
     AuthFlowPage.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i3.AuthFlowPage(),
       );
     },
     AuthPage.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i4.AuthPage(),
       );
@@ -55,7 +56,7 @@ abstract class $AppRouter extends _i10.RootStackRouter {
     CreateAccountPage.name: (routeData) {
       final args = routeData.argsAs<CreateAccountPageArgs>(
           orElse: () => const CreateAccountPageArgs());
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i5.CreateAccountPage(key: args.key),
       );
@@ -63,19 +64,19 @@ abstract class $AppRouter extends _i10.RootStackRouter {
     ForgetPasswordPage.name: (routeData) {
       final args = routeData.argsAs<ForgetPasswordPageArgs>(
           orElse: () => const ForgetPasswordPageArgs());
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i6.ForgetPasswordPage(key: args.key),
       );
     },
     HomePage.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i7.HomePage(),
       );
     },
     LoadingPage.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i8.LoadingPage(),
       );
@@ -83,47 +84,24 @@ abstract class $AppRouter extends _i10.RootStackRouter {
     LoginPage.name: (routeData) {
       final args =
           routeData.argsAs<LoginPageArgs>(orElse: () => const LoginPageArgs());
-      return _i10.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i9.LoginPage(key: args.key),
+      );
+    },
+    UserhomePage.name: (routeData) {
+      return _i11.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i10.UserhomePage(),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.AdminPage]
-class AdminPage extends _i10.PageRouteInfo<AdminPageArgs> {
-  AdminPage({
-    _i11.Key? key,
-    List<_i10.PageRouteInfo>? children,
-  }) : super(
-          AdminPage.name,
-          args: AdminPageArgs(key: key),
-          initialChildren: children,
-        );
-
-  static const String name = 'AdminPage';
-
-  static const _i10.PageInfo<AdminPageArgs> page =
-      _i10.PageInfo<AdminPageArgs>(name);
-}
-
-class AdminPageArgs {
-  const AdminPageArgs({this.key});
-
-  final _i11.Key? key;
-
-  @override
-  String toString() {
-    return 'AdminPageArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [_i2.AdminhomePage]
-class AdminhomePage extends _i10.PageRouteInfo<void> {
-  const AdminhomePage({List<_i10.PageRouteInfo>? children})
+/// [_i1.AdminhomePage]
+class AdminhomePage extends _i11.PageRouteInfo<void> {
+  const AdminhomePage({List<_i11.PageRouteInfo>? children})
       : super(
           AdminhomePage.name,
           initialChildren: children,
@@ -131,13 +109,42 @@ class AdminhomePage extends _i10.PageRouteInfo<void> {
 
   static const String name = 'AdminhomePage';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.AdminloginPage]
+class AdminloginPage extends _i11.PageRouteInfo<AdminloginPageArgs> {
+  AdminloginPage({
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
+  }) : super(
+          AdminloginPage.name,
+          args: AdminloginPageArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'AdminloginPage';
+
+  static const _i11.PageInfo<AdminloginPageArgs> page =
+      _i11.PageInfo<AdminloginPageArgs>(name);
+}
+
+class AdminloginPageArgs {
+  const AdminloginPageArgs({this.key});
+
+  final _i12.Key? key;
+
+  @override
+  String toString() {
+    return 'AdminloginPageArgs{key: $key}';
+  }
 }
 
 /// generated route for
 /// [_i3.AuthFlowPage]
-class AuthFlowPage extends _i10.PageRouteInfo<void> {
-  const AuthFlowPage({List<_i10.PageRouteInfo>? children})
+class AuthFlowPage extends _i11.PageRouteInfo<void> {
+  const AuthFlowPage({List<_i11.PageRouteInfo>? children})
       : super(
           AuthFlowPage.name,
           initialChildren: children,
@@ -145,13 +152,13 @@ class AuthFlowPage extends _i10.PageRouteInfo<void> {
 
   static const String name = 'AuthFlowPage';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i4.AuthPage]
-class AuthPage extends _i10.PageRouteInfo<void> {
-  const AuthPage({List<_i10.PageRouteInfo>? children})
+class AuthPage extends _i11.PageRouteInfo<void> {
+  const AuthPage({List<_i11.PageRouteInfo>? children})
       : super(
           AuthPage.name,
           initialChildren: children,
@@ -159,15 +166,15 @@ class AuthPage extends _i10.PageRouteInfo<void> {
 
   static const String name = 'AuthPage';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.CreateAccountPage]
-class CreateAccountPage extends _i10.PageRouteInfo<CreateAccountPageArgs> {
+class CreateAccountPage extends _i11.PageRouteInfo<CreateAccountPageArgs> {
   CreateAccountPage({
-    _i12.Key? key,
-    List<_i10.PageRouteInfo>? children,
+    _i13.Key? key,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
           CreateAccountPage.name,
           args: CreateAccountPageArgs(key: key),
@@ -176,14 +183,14 @@ class CreateAccountPage extends _i10.PageRouteInfo<CreateAccountPageArgs> {
 
   static const String name = 'CreateAccountPage';
 
-  static const _i10.PageInfo<CreateAccountPageArgs> page =
-      _i10.PageInfo<CreateAccountPageArgs>(name);
+  static const _i11.PageInfo<CreateAccountPageArgs> page =
+      _i11.PageInfo<CreateAccountPageArgs>(name);
 }
 
 class CreateAccountPageArgs {
   const CreateAccountPageArgs({this.key});
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
   @override
   String toString() {
@@ -193,10 +200,10 @@ class CreateAccountPageArgs {
 
 /// generated route for
 /// [_i6.ForgetPasswordPage]
-class ForgetPasswordPage extends _i10.PageRouteInfo<ForgetPasswordPageArgs> {
+class ForgetPasswordPage extends _i11.PageRouteInfo<ForgetPasswordPageArgs> {
   ForgetPasswordPage({
-    _i11.Key? key,
-    List<_i10.PageRouteInfo>? children,
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
           ForgetPasswordPage.name,
           args: ForgetPasswordPageArgs(key: key),
@@ -205,14 +212,14 @@ class ForgetPasswordPage extends _i10.PageRouteInfo<ForgetPasswordPageArgs> {
 
   static const String name = 'ForgetPasswordPage';
 
-  static const _i10.PageInfo<ForgetPasswordPageArgs> page =
-      _i10.PageInfo<ForgetPasswordPageArgs>(name);
+  static const _i11.PageInfo<ForgetPasswordPageArgs> page =
+      _i11.PageInfo<ForgetPasswordPageArgs>(name);
 }
 
 class ForgetPasswordPageArgs {
   const ForgetPasswordPageArgs({this.key});
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
@@ -222,8 +229,8 @@ class ForgetPasswordPageArgs {
 
 /// generated route for
 /// [_i7.HomePage]
-class HomePage extends _i10.PageRouteInfo<void> {
-  const HomePage({List<_i10.PageRouteInfo>? children})
+class HomePage extends _i11.PageRouteInfo<void> {
+  const HomePage({List<_i11.PageRouteInfo>? children})
       : super(
           HomePage.name,
           initialChildren: children,
@@ -231,13 +238,13 @@ class HomePage extends _i10.PageRouteInfo<void> {
 
   static const String name = 'HomePage';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i8.LoadingPage]
-class LoadingPage extends _i10.PageRouteInfo<void> {
-  const LoadingPage({List<_i10.PageRouteInfo>? children})
+class LoadingPage extends _i11.PageRouteInfo<void> {
+  const LoadingPage({List<_i11.PageRouteInfo>? children})
       : super(
           LoadingPage.name,
           initialChildren: children,
@@ -245,15 +252,15 @@ class LoadingPage extends _i10.PageRouteInfo<void> {
 
   static const String name = 'LoadingPage';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i9.LoginPage]
-class LoginPage extends _i10.PageRouteInfo<LoginPageArgs> {
+class LoginPage extends _i11.PageRouteInfo<LoginPageArgs> {
   LoginPage({
-    _i11.Key? key,
-    List<_i10.PageRouteInfo>? children,
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
           LoginPage.name,
           args: LoginPageArgs(key: key),
@@ -262,17 +269,31 @@ class LoginPage extends _i10.PageRouteInfo<LoginPageArgs> {
 
   static const String name = 'LoginPage';
 
-  static const _i10.PageInfo<LoginPageArgs> page =
-      _i10.PageInfo<LoginPageArgs>(name);
+  static const _i11.PageInfo<LoginPageArgs> page =
+      _i11.PageInfo<LoginPageArgs>(name);
 }
 
 class LoginPageArgs {
   const LoginPageArgs({this.key});
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
     return 'LoginPageArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [_i10.UserhomePage]
+class UserhomePage extends _i11.PageRouteInfo<void> {
+  const UserhomePage({List<_i11.PageRouteInfo>? children})
+      : super(
+          UserhomePage.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UserhomePage';
+
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
