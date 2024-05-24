@@ -71,7 +71,7 @@ class GetxTapController extends GetxController {
     checkloginstatus();
   }
 
-  void _showLoadingDialog(BuildContext context) {
+  Future? _showLoadingDialog() {
     showDialog(
       useSafeArea: true,
       context: context,
@@ -104,6 +104,7 @@ class GetxTapController extends GetxController {
         );
       },
     );
+    return null;
   }
 
   void checkloginstatus() async {
@@ -531,8 +532,8 @@ class GetxTapController extends GetxController {
   }
 
   void login({required String email, required String password}) async {
-    _showLoadingDialog(context);
-    Future.delayed(const Duration(seconds: 3));
+    await _showLoadingDialog();
+    await Future.delayed(const Duration(seconds: 3));
     final url = Uri.parse(loginapi); // Example endpoint
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final body = jsonEncode({
@@ -547,29 +548,34 @@ class GetxTapController extends GetxController {
       if (response.statusCode == 200) {
         var alldata = getuserdetailsFromJson(response.body);
         _alluserdata = alldata;
-        context.router.pop();
+        // ignore: use_build_context_synchronously
+
         prefs.setBool('isLogin', true);
         prefs.setInt('userid', alldata.id);
         prefs.setBool('user', true);
         _islogin = true;
         log('Login Successfully');
-        checkloginstatus();
-        update();
 
+        update();
+        context.router.maybePop();
+        checkloginstatus();
+        context.router.replaceNamed('/');
         EasyLoading.showSuccess('Login Successfully');
       } else {
-        context.router.pop();
+        // ignore: use_build_context_synchronously
+        context.router.maybePop();
         EasyLoading.showError(response.body);
       }
     } catch (e) {
-      context.router.pop();
+      // ignore: use_build_context_synchronously
+      context.router.maybePop();
       EasyLoading.showError(e.toString());
       log("Exception $e");
     }
   }
 
   void logoutaccount() async {
-    _showLoadingDialog(context);
+    _showLoadingDialog();
     await Future.delayed(const Duration(seconds: 2));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
