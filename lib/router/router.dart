@@ -13,6 +13,10 @@ class AppRouter extends $AppRouter {
             path: 'authpage',
             page: AuthPage.page,
           ),
+          AutoRoute(
+            path: 'authpage',
+            page: WebViewAuthPage.page,
+          ),
           AutoRoute(path: 'homepage', page: HomePage.page),
           AutoRoute(path: 'loadingpage', page: LoadingPage.page),
         ]),

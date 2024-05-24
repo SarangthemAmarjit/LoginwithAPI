@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:logindemo/pages/loginpage.dart';
+import 'package:logindemo/pages/view/mobile/loginpage.dart';
 
 import 'package:logindemo/main.dart';
 

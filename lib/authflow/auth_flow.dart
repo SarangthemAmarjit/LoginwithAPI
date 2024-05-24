@@ -16,7 +16,8 @@ class AuthFlowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GetxTapController controller = Get.put(GetxTapController(context: context));
-
+    double scrwidth = MediaQuery.of(context).size.width;
+    log(scrwidth.toString());
     return GetBuilder<GetxTapController>(builder: (_) {
       return AutoRouter.declarative(routes: (context) {
         log("Auth Flow ${controller.islogin.toString()}");
@@ -25,8 +26,14 @@ class AuthFlowPage extends StatelessWidget {
         } else if (controller.islogin!) {
           return [const HomePage()];
         } else {
-          return [const AuthPage()];
+          if (scrwidth > 600.0) {
+            return [const WebViewAuthPage()];
+          } else {
+            return [const AuthPage()];
+          }
         }
+        //   return [const AuthPage()];
+        // }
       });
     });
   }

@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:logindemo/pages/forgetpasswordpage.dart';
+import 'package:logindemo/pages/view/mobile/forgetpasswordpage.dart';
 
-import 'package:logindemo/pages/loginpage.dart';
+import 'package:logindemo/pages/view/mobile/loginpage.dart';
 import 'package:logindemo/router/router.dart';
 
 void main() {
