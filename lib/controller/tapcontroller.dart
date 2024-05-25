@@ -11,6 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:logindemo/constant/constant.dart';
+import 'package:logindemo/model/adminmodel.dart';
 import 'package:logindemo/model/usermodel.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,8 @@ class GetxTapController extends GetxController {
   String _validatedmail = '';
   Getuserdetails? _alluserdata;
   Getuserdetails? get alluserdata => _alluserdata;
+  Getadmindetails? _alladmindata;
+  Getadmindetails? get alladmindata => _alladmindata;
 
   bool _obscureTextPassword = true;
   bool get obscureTextPassword => _obscureTextPassword;
@@ -691,12 +694,13 @@ class GetxTapController extends GetxController {
   //ADMIN PANEL SECTION
 
   void adminlogin({required String email, required String password}) async {
-    showLoadingDialog(context);
-    final url = Uri.parse(loginapi); // Example endpoint
+    _showLoadingDialog();
+    log(password);
+    final url = Uri.parse(adminloginapi); // Example endpoint
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final body = jsonEncode({
       'email': email,
-      'hashedPassword': password,
+      'PasswordHash': password,
     });
 
     try {
@@ -704,22 +708,26 @@ class GetxTapController extends GetxController {
           headers: {"Content-Type": "application/json"}, body: body);
 
       if (response.statusCode == 200) {
-        var alldata = getuserdetailsFromJson(response.body);
-        _alluserdata = alldata;
-        context.router.pop();
+        var alldata = getadmindetailsFromJson(response.body);
+        _alladmindata = alldata;
+        // ignore: use_build_context_synchronously
+        context.router.maybePop();
         prefs.setBool('isLogin', true);
-        prefs.setInt('adminid', alldata.id);
+        prefs.setInt('adminid', alldata.adminId);
         prefs.setBool('isadminLogin', true);
         _islogin = true;
         update();
-
+        checkloginstatus();
+        context.router.replaceNamed('/');
         EasyLoading.showSuccess('Login Successfully');
       } else {
-        context.router.pop();
+        // ignore: use_build_context_synchronously
+        context.router.maybePop();
         EasyLoading.showError(response.body);
       }
     } catch (e) {
-      context.router.pop();
+      // ignore: use_build_context_synchronously
+      context.router.maybePop();
       EasyLoading.showError(e.toString());
       log(e.toString());
     }

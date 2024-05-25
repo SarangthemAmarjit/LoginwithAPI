@@ -11,9 +11,8 @@ import 'package:logindemo/controller/tapcontroller.dart';
 class AdminloginPage extends StatelessWidget {
   AdminloginPage({super.key});
 
-  TextEditingController forgetmail = TextEditingController();
+  TextEditingController mailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
-  TextEditingController confirmpasswordcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +78,7 @@ class AdminloginPage extends StatelessWidget {
                                     //     searchtext: searchcontroller.text);
                                   },
                                   child: TextFormField(
-                                    controller: controller.isemailvalid
-                                        ? passwordcontroller
-                                        : forgetmail,
+                                    controller: mailcontroller,
                                     keyboardType: TextInputType.emailAddress,
 
                                     onEditingComplete: () {},
@@ -122,8 +119,8 @@ class AdminloginPage extends StatelessWidget {
                                     //     searchtext: searchcontroller.text);
                                   },
                                   child: TextFormField(
-                                    controller: confirmpasswordcontroller,
-                                    keyboardType: TextInputType.emailAddress,
+                                    controller: passwordcontroller,
+                                    keyboardType: TextInputType.visiblePassword,
 
                                     onEditingComplete: () {},
                                     // controller: searchcontroller,
@@ -145,17 +142,9 @@ class AdminloginPage extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // controller.isemailvalid
-                              //     ? (passwordcontroller.text ==
-                              //             confirmpasswordcontroller.text)
-                              //         ? controller.changepassword(
-                              //             newpassword: passwordcontroller.text)
-                              //         : EasyLoading.showError(
-                              //             'Confirm Password Not Same')
-                              //     : controller
-                              //         .forgetpasswordcheckmail(
-                              //             email: forgetmail.text)
-                              //         .then((value) => forgetmail.clear());
+                              controller.adminlogin(
+                                  email: mailcontroller.text,
+                                  password: passwordcontroller.text);
                             },
                             child: Padding(
                               padding:
