@@ -8,75 +8,70 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:logindemo/config.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
-import 'package:logindemo/pages/view/web/loginpage.dart';
 
-import '../../../router/router.gr.dart';
+import 'package:logindemo/router/router.gr.dart';
 
-@RoutePage()
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  TextEditingController mailcontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
+class WebviewLoginPage extends StatelessWidget {
+  final TextEditingController mailcontroller;
+  final TextEditingController passwordcontroller;
+  const WebviewLoginPage(
+      {super.key,
+      required this.mailcontroller,
+      required this.passwordcontroller});
 
   @override
   Widget build(BuildContext context) {
-    double scrwidth = MediaQuery.of(context).size.width;
     GetxTapController controller = Get.put(GetxTapController(context: context));
-    log(scrwidth.toString());
-    return scrwidth > 700
-        ? WebviewLoginPage(
-            mailcontroller: mailcontroller,
-            passwordcontroller: passwordcontroller)
-        : Scaffold(
-            body: GetBuilder<GetxTapController>(builder: (_) {
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage('assets/images/primaryBg.png'),
-                  fit: BoxFit.cover,
-                )),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 20, bottom: 30),
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                  fontSize: 48,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: const BoxDecoration(
-                            color: layerOneBg,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(60.0),
-                                bottomRight: Radius.circular(60.0)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 30, top: 20),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: const BoxDecoration(
-                                color: layerTwoBg,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(60.0),
-                                  bottomRight: Radius.circular(60.0),
-                                  bottomLeft: Radius.circular(60.0),
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: GetBuilder<GetxTapController>(builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.all(100),
+          child: Card(
+            elevation: 10,
+            child: Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Image.asset(
+                      'assets/images/login.jpg',
+                      fit: BoxFit.contain,
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5),
+                              bottomRight: Radius.circular(5)),
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/primaryBg.png'),
+                              fit: BoxFit.cover,
+                              opacity: 0.7)),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 20, bottom: 30),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                        fontSize: 48,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
-                              child: SizedBox(
+
+                              SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -94,7 +89,7 @@ class LoginPage extends StatelessWidget {
                                                     255, 253, 253, 252),
                                                 borderRadius:
                                                     BorderRadius.circular(7)),
-                                            height: 43,
+                                            height: 60,
                                             child: Focus(
                                               onFocusChange: (value) {
                                                 controller
@@ -116,8 +111,10 @@ class LoginPage extends StatelessWidget {
                                                 }),
                                                 decoration: InputDecoration(
                                                     contentPadding:
-                                                        const EdgeInsets.only(
-                                                            top: 7),
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 25.0,
+                                                            horizontal: 10.0),
                                                     prefixIcon: const Icon(
                                                         Icons.person),
                                                     border: OutlineInputBorder(
@@ -168,7 +165,7 @@ class LoginPage extends StatelessWidget {
                                                     255, 253, 253, 252),
                                                 borderRadius:
                                                     BorderRadius.circular(7)),
-                                            height: 43,
+                                            height: 60,
                                             child: Focus(
                                               onFocusChange: (value) {
                                                 // gcontroller.onfocuschange(
@@ -199,8 +196,10 @@ class LoginPage extends StatelessWidget {
                                                       ),
                                                     ),
                                                     contentPadding:
-                                                        const EdgeInsets.only(
-                                                            top: 7),
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 25.0,
+                                                            horizontal: 10.0),
                                                     prefixIcon:
                                                         const Icon(Icons.lock),
                                                     border: OutlineInputBorder(
@@ -278,34 +277,62 @@ class LoginPage extends StatelessWidget {
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Text(
-                                              'Don\'t have an account? ',
-                                            ),
-                                            TextButton(
-                                                onPressed: () {
-                                                  context.router.push(
-                                                      CreateAccountPage());
-                                                },
-                                                child: const Text(
-                                                    'Create Account'))
-                                          ],
+                                        FittedBox(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Text(
+                                                'Don\'t have an account? ',
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    context.router.push(
+                                                        CreateAccountPage());
+                                                  },
+                                                  child: const Text(
+                                                      'Create Account'))
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
                                   )),
-                            ),
+                              // Container(
+                              //   width: MediaQuery.of(context).size.width,
+                              //   decoration: const BoxDecoration(
+                              //     color: layerOneBg,
+                              //     borderRadius: BorderRadius.only(
+                              //         topLeft: Radius.circular(60.0),
+                              //         bottomRight: Radius.circular(60.0)),
+                              //   ),
+                              //   child: Padding(
+                              //     padding:
+                              //         const EdgeInsets.only(left: 30, top: 20),
+                              //     child: Container(
+                              //       width: MediaQuery.of(context).size.width,
+                              //       decoration: const BoxDecoration(
+                              //         color: layerTwoBg,
+                              //         borderRadius: BorderRadius.only(
+                              //           topLeft: Radius.circular(60.0),
+                              //           bottomRight: Radius.circular(60.0),
+                              //           bottomLeft: Radius.circular(60.0),
+                              //         ),
+                              //       ),
+                              //       child:
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-          );
+                      ),
+                    ))
+              ],
+            ),
+          ),
+        );
+      }),
+    );
   }
 }
