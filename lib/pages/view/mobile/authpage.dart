@@ -14,18 +14,15 @@ class AuthPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/images/primaryBg.png'),
-            fit: BoxFit.cover,
-          )),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 100,
-              ),
-              Card(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage('assets/images/primaryBg.png'),
+              fit: BoxFit.cover,
+            )),
+            child: Center(
+              child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 color: Colors.white,
@@ -34,6 +31,7 @@ class AuthPage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset(
                         'assets/images/adminok1.png',
@@ -119,12 +117,7 @@ class AuthPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 100,
-              )
-            ],
-          ),
-        ),
+            )),
       ),
     );
   }
