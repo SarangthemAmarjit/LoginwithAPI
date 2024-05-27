@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
 import 'package:logindemo/pages/view/mobile/adminhomepage.dart';
 import 'package:logindemo/pages/view/mobile/userhomepage.dart';
+import 'package:logindemo/pages/view/web/adminloginpage.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {

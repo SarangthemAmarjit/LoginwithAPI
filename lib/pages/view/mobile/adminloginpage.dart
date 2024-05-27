@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:logindemo/config.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
+import 'package:logindemo/pages/view/web/adminloginpage.dart';
 
 @RoutePage()
 class AdminloginPage extends StatelessWidget {
@@ -16,169 +19,180 @@ class AdminloginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double scrwidth = MediaQuery.of(context).size.width;
     GetxTapController controller = Get.put(GetxTapController(context: context));
-    return Scaffold(
-      body: GetBuilder<GetxTapController>(builder: (_) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/images/primaryBg.png'),
-            fit: BoxFit.cover,
-          )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/admin2.png',
-                height: 250,
-              ),
-              const Text(
-                'ADMIN PANEL LOGIN',
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7)),
-                              elevation: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 253, 253, 252),
-                                    borderRadius: BorderRadius.circular(7)),
-                                height: 43,
-                                child: Focus(
-                                  onFocusChange: (value) {
-                                    // gcontroller.onfocuschange(
-                                    //     value: value,
-                                    //     searchtext: searchcontroller.text);
-                                  },
-                                  child: TextFormField(
-                                    controller: mailcontroller,
-                                    keyboardType: TextInputType.emailAddress,
-
-                                    onEditingComplete: () {},
-                                    // controller: searchcontroller,
-                                    onChanged: ((value) {}),
-                                    decoration: InputDecoration(
-                                        hintText: 'Enter Userid or email',
-                                        contentPadding:
-                                            const EdgeInsets.only(top: 7),
-                                        prefixIcon: const Icon(Icons.person),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(7)),
-                                        hintStyle: const TextStyle(
-                                            color: Colors.grey)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, bottom: 15),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7)),
-                              elevation: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 253, 253, 252),
-                                    borderRadius: BorderRadius.circular(7)),
-                                height: 43,
-                                child: Focus(
-                                  onFocusChange: (value) {
-                                    // gcontroller.onfocuschange(
-                                    //     value: value,
-                                    //     searchtext: searchcontroller.text);
-                                  },
-                                  child: TextFormField(
-                                    controller: passwordcontroller,
-                                    keyboardType: TextInputType.visiblePassword,
-
-                                    onEditingComplete: () {},
-                                    // controller: searchcontroller,
-                                    onChanged: ((value) {}),
-                                    decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.only(top: 7),
-                                        prefixIcon: const Icon(Icons.lock),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(7)),
-                                        hintText: 'Enter Password',
-                                        hintStyle: const TextStyle(
-                                            color: Colors.grey)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              controller.adminlogin(
-                                  email: mailcontroller.text,
-                                  password: passwordcontroller.text);
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: signInButton,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(top: 6.0),
-                                  child: Text(
-                                    'Login',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+    log(scrwidth.toString());
+    return scrwidth > 700
+        ? WebViewAdminloginPage()
+        : Scaffold(
+            body: GetBuilder<GetxTapController>(builder: (_) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage('assets/images/primaryBg.png'),
+                  fit: BoxFit.cover,
+                )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/admin2.png',
+                      height: 250,
                     ),
-                  ),
+                    const Text(
+                      'ADMIN PANEL LOGIN',
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
+                      child: Card(
+                        elevation: 10,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 20),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7)),
+                                    elevation: 10,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 253, 253, 252),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      height: 43,
+                                      child: Focus(
+                                        onFocusChange: (value) {
+                                          // gcontroller.onfocuschange(
+                                          //     value: value,
+                                          //     searchtext: searchcontroller.text);
+                                        },
+                                        child: TextFormField(
+                                          controller: mailcontroller,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+
+                                          onEditingComplete: () {},
+                                          // controller: searchcontroller,
+                                          onChanged: ((value) {}),
+                                          decoration: InputDecoration(
+                                              hintText: 'Enter Userid or email',
+                                              contentPadding:
+                                                  const EdgeInsets.only(top: 7),
+                                              prefixIcon:
+                                                  const Icon(Icons.person),
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(7)),
+                                              hintStyle: const TextStyle(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15, bottom: 15),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7)),
+                                    elevation: 10,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 253, 253, 252),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      height: 43,
+                                      child: Focus(
+                                        onFocusChange: (value) {
+                                          // gcontroller.onfocuschange(
+                                          //     value: value,
+                                          //     searchtext: searchcontroller.text);
+                                        },
+                                        child: TextFormField(
+                                          controller: passwordcontroller,
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+
+                                          onEditingComplete: () {},
+                                          // controller: searchcontroller,
+                                          onChanged: ((value) {}),
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                                  const EdgeInsets.only(top: 7),
+                                              prefixIcon:
+                                                  const Icon(Icons.lock),
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(7)),
+                                              hintText: 'Enter Password',
+                                              hintStyle: const TextStyle(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.adminlogin(
+                                        email: mailcontroller.text,
+                                        password: passwordcontroller.text);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          color: signInButton,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(top: 6.0),
+                                        child: Text(
+                                          'Login',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        );
-      }),
-    );
+              );
+            }),
+          );
   }
 }
