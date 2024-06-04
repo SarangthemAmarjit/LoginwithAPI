@@ -32,7 +32,7 @@ class WebViewAdminloginPage extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: Padding(
-              padding: const EdgeInsets.only(top: 100, bottom: 100, right: 150),
+              padding: const EdgeInsets.only(top: 80, right: 150),
               child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
@@ -44,6 +44,7 @@ class WebViewAdminloginPage extends StatelessWidget {
                   width: 500,
                   // height: MediaQuery.of(context).size.height,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
@@ -69,9 +70,6 @@ class WebViewAdminloginPage extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Column(
                               children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 20),

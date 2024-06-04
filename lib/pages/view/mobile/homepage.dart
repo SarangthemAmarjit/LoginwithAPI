@@ -17,9 +17,7 @@ class HomePage extends StatelessWidget {
     GetxTapController controller = Get.put(GetxTapController(context: context));
     log("From homePge : +${controller.isuserlogin}");
     return GetBuilder<GetxTapController>(builder: (_) {
-      return controller.isuserlogin
-          ? const UserhomePage()
-          : const AdminhomePage();
+      return controller.isuserlogin ? const UserhomePage() : AdminhomePage();
     });
   }
 }
