@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:logindemo/controller/tapcontroller.dart';
+import 'package:logindemo/router/router.gr.dart';
 import 'package:mime/mime.dart';
 import 'package:mime_type/mime_type.dart';
 
@@ -77,18 +78,46 @@ class _FilePickerDemoState extends State<UserhomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('File Metadata Checker'),
+        title: const Text('Demo Authentication App'),
         actions: [
-          const Icon(Icons.logout),
-          TextButton(
-            onPressed: () {
-              controller.logoutaccount();
-            },
-            child: const Text(
-              'Log Out',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          PopupMenuButton<String>(
+              onOpened: () {
+                controller.getimage(id: controller.alluserdata!.id);
+              },
+              offset: const Offset(0, 45),
+              onSelected: (String result) {
+                // Handle the selected menu item
+                print(result);
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                    PopupMenuItem<String>(
+                      onTap: () {
+                        context.router.push(const ProfileRoutePage());
+                      },
+                      value: 'Update Profile',
+                      child: const Text('Update Profile'),
+                    ),
+                    PopupMenuItem<String>(
+                      onTap: () {
+                        controller.logoutaccount();
+                      },
+                      value: 'Log Out',
+                      child: const Text(
+                        'Log Out',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+              child: Row(
+                children: [
+                  const Icon(Icons.expand_circle_down_rounded),
+                  Center(
+                      child: Padding(
+                    padding: const EdgeInsets.only(right: 20, left: 10),
+                    child: Text(controller.alluserdata!.firstName),
+                  )),
+                ],
+              )),
         ],
       ),
       body: GetBuilder<GetxTapController>(builder: (_) {

@@ -1,16 +1,17 @@
 // To parse this JSON data, do
 //
-//     final getuserdetails = getuserdetailsFromJson(jsonString);
+//     final getallusers = getallusersFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-Getuserdetails getuserdetailsFromJson(String str) =>
-    Getuserdetails.fromJson(json.decode(str));
+List<Getallusers> getallusersFromJson(String str) => List<Getallusers>.from(
+    json.decode(str).map((x) => Getallusers.fromJson(x)));
 
-String getuserdetailsToJson(Getuserdetails data) => json.encode(data.toJson());
+String getallusersToJson(List<Getallusers> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Getuserdetails {
+class Getallusers {
   final int id;
   final String firstName;
   final String lastName;
@@ -20,7 +21,7 @@ class Getuserdetails {
   final String phoneNumber;
   final String? profileImage;
 
-  Getuserdetails({
+  Getallusers({
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -31,7 +32,7 @@ class Getuserdetails {
     required this.profileImage,
   });
 
-  factory Getuserdetails.fromJson(Map<String, dynamic> json) => Getuserdetails(
+  factory Getallusers.fromJson(Map<String, dynamic> json) => Getallusers(
         id: json["Id"],
         firstName: json["FirstName"],
         lastName: json["LastName"],

@@ -1,112 +1,136 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:logindemo/controller/tapcontroller.dart';
+import 'package:logindemo/model/allusermodel.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 @RoutePage()
 class AdminhomePage extends StatelessWidget {
-  AdminhomePage({super.key});
-
-  final List<User> users = [
-    User(
-        name: 'John Doe',
-        loginId: 'johndoe',
-        password: 'password123',
-        address: '123 Main St'),
-    User(
-        name: 'Jane Smith',
-        loginId: 'janesmith',
-        password: 'password456',
-        address: '456 Elm St'),
-    // Add more users as needed
-  ];
+  const AdminhomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final UserDataSource userDataSource = UserDataSource(users: users);
+    GetxTapController controller = Get.put(GetxTapController(context: context));
+    final UserDataSource userDataSource =
+        UserDataSource(users: controller.getalluserlist, context: context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Dashboard'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SfDataGrid(
-          source: userDataSource,
-          columns: <GridColumn>[
-            GridColumn(
-                columnName: 'name',
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child: const Text('Name', overflow: TextOverflow.ellipsis),
-                )),
-            GridColumn(
-                columnName: 'loginId',
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child:
-                      const Text('Login ID', overflow: TextOverflow.ellipsis),
-                )),
-            GridColumn(
-                columnName: 'password',
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child:
-                      const Text('Password', overflow: TextOverflow.ellipsis),
-                )),
-            GridColumn(
-                columnName: 'address',
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child: const Text('Address', overflow: TextOverflow.ellipsis),
-                )),
-            GridColumn(
-                columnName: 'action',
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.center,
-                  child: const Text('Action', overflow: TextOverflow.ellipsis),
-                )),
-          ],
-        ),
-      ),
+      body: GetBuilder<GetxTapController>(builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'All User List',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.logout),
+                      TextButton(
+                        onPressed: () {
+                          controller.logoutaccount();
+                        },
+                        child: const Text(
+                          'Log Out',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Expanded(
+                child: SfDataGrid(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  verticalScrollPhysics: const ClampingScrollPhysics(),
+                  horizontalScrollPhysics: const NeverScrollableScrollPhysics(),
+                  gridLinesVisibility: GridLinesVisibility.both,
+                  headerGridLinesVisibility: GridLinesVisibility.both,
+                  source: userDataSource,
+                  columns: <GridColumn>[
+                    GridColumn(
+                        columnName: 'name',
+                        label: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          alignment: Alignment.centerLeft,
+                          child: const Text('Name',
+                              overflow: TextOverflow.ellipsis),
+                        )),
+                    GridColumn(
+                        columnName: 'loginId',
+                        label: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          alignment: Alignment.centerLeft,
+                          child: const Text('Login ID',
+                              overflow: TextOverflow.ellipsis),
+                        )),
+                    GridColumn(
+                        columnName: 'password',
+                        label: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          alignment: Alignment.centerLeft,
+                          child: const Text('Password',
+                              overflow: TextOverflow.ellipsis),
+                        )),
+                    GridColumn(
+                        columnName: 'address',
+                        label: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          alignment: Alignment.centerLeft,
+                          child: const Text('Address',
+                              overflow: TextOverflow.ellipsis),
+                        )),
+                    GridColumn(
+                        columnName: 'action',
+                        label: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          alignment: Alignment.center,
+                          child: const Text('Action',
+                              overflow: TextOverflow.ellipsis),
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
 
-class User {
-  final String name;
-  final String loginId;
-  final String password;
-  final String address;
-
-  User(
-      {required this.name,
-      required this.loginId,
-      required this.password,
-      required this.address});
-}
-
 class UserDataSource extends DataGridSource {
-  UserDataSource({required List<User> users}) {
+  UserDataSource(
+      {required List<Getallusers> users, required BuildContext context}) {
+    GetxTapController controller = Get.put(GetxTapController(context: context));
     _users = users
         .map<DataGridRow>((user) => DataGridRow(cells: [
-              DataGridCell<String>(columnName: 'name', value: user.name),
-              DataGridCell<String>(columnName: 'loginId', value: user.loginId),
+              DataGridCell<String>(columnName: 'name', value: user.firstName),
+              DataGridCell<String>(columnName: 'loginId', value: user.email),
               DataGridCell<String>(
                   columnName: 'password', value: user.password),
               DataGridCell<String>(columnName: 'address', value: user.address),
               DataGridCell<Widget>(
                   columnName: 'action',
-                  value: ElevatedButton(
+                  value: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
                     onPressed: () {
-                      print('Action pressed for ${user.name}');
+                      controller.deleteuser(id: user.id);
                     },
-                    child: const Text('Action'),
                   )),
             ]))
         .toList();

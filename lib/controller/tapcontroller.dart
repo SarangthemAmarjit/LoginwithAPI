@@ -4,14 +4,19 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:logindemo/constant/constant.dart';
+import 'package:logindemo/model/Profilemodel.dart';
 import 'package:logindemo/model/adminmodel.dart';
+import 'package:logindemo/model/alladminsmodel.dart';
+import 'package:logindemo/model/allusermodel.dart';
 import 'package:logindemo/model/usermodel.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +37,18 @@ class GetxTapController extends GetxController {
 
   String _validatedmail = '';
   Getuserdetails? _alluserdata;
+
+  String? _profileimageurl;
+  String? get profileimageurl => _profileimageurl;
+
   Getuserdetails? get alluserdata => _alluserdata;
+
+  Getalladmins? _alladmin;
+  Getalladmins? get alladmin => _alladmin;
+
+  List<Getallusers> _getalluserlist = [];
+  List<Getallusers> get getalluserlist => _getalluserlist;
+
   Getadmindetails? _alladmindata;
   Getadmindetails? get alladmindata => _alladmindata;
 
@@ -68,9 +84,17 @@ class GetxTapController extends GetxController {
 
   String get validatedmail => _validatedmail;
 
+  final ImagePicker _picker = ImagePicker();
+  File? _image;
+  Uint8List? _webImage;
+
+  File? get image => _image;
+  Uint8List? get webImage => _webImage;
+
   @override
   Future<void> onInit() async {
     super.onInit();
+    getallusers();
     checkloginstatus();
   }
 
@@ -108,6 +132,25 @@ class GetxTapController extends GetxController {
       },
     );
     return null;
+  }
+
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      if (kIsWeb) {
+        var bytes = await pickedFile.readAsBytes();
+
+        _webImage = bytes;
+        update();
+
+        // Save to SharedPreferences as a base64 string (if needed)
+      } else {
+        final tempFile = File(pickedFile.path);
+
+        _image = tempFile;
+        update();
+      }
+    }
   }
 
   void checkloginstatus() async {
@@ -477,7 +520,7 @@ class GetxTapController extends GetxController {
 
   void getuserdatabyid({required int id}) async {
     try {
-      final url = Uri.parse('$createapi/$id');
+      final url = Uri.parse('$getalluserapi/$id');
 
       final response = await http.get(
         url,
@@ -497,19 +540,44 @@ class GetxTapController extends GetxController {
     }
   }
 
+  void getimage({required int id}) async {
+    log(id.toString());
+    try {
+      final queryParameters = {
+        "id": id.toString(),
+      };
+      final response = await http.get(
+        Uri.http(forgetpasswordcheckmailapi2, getimageapi, queryParameters),
+      );
+      log('Status Code :${response.statusCode}');
+      if (response.statusCode == 200) {
+        var alldata = getImageurlFromJson(response.body);
+        _profileimageurl = alldata.imageUrl;
+        update();
+        log(_profileimageurl.toString());
+      } else {
+        log('error');
+        log(response.body);
+      }
+    } catch (e) {
+      log('error catch');
+      EasyLoading.showError(e.toString());
+      log(e.toString());
+    }
+  }
+
   void getadmindatabyid({required int id}) async {
     try {
-      final url = Uri.parse('$createapi/$id');
+      final url = Uri.parse('$getalladminapi/$id');
 
       final response = await http.get(
         url,
       );
 
       if (response.statusCode == 200) {
-        var alldata = getuserdetailsFromJson(response.body);
-        _alluserdata = alldata;
+        var alldata = getalladminsFromJson(response.body);
+        _alladmin = alldata;
         update();
-        log(_alluserdata!.firstName);
       } else {
         EasyLoading.showError(response.body);
       }
@@ -598,7 +666,7 @@ class GetxTapController extends GetxController {
       required String number,
       required String password}) async {
     showLoadingDialog(context);
-    final url = Uri.parse(createapi); // Example endpoint
+    final url = Uri.parse(getalluserapi); // Example endpoint
 
     final body = jsonEncode({
       "firstName": firstname.trim(),
@@ -693,8 +761,55 @@ class GetxTapController extends GetxController {
 
   //ADMIN PANEL SECTION
 
+  void deleteuser({required int id}) async {
+    _showLoadingDialog();
+    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final url = Uri.parse('$getalluserapi/$id');
+
+      final response = await http.delete(
+        url,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        getallusers();
+        log('User Deleted Successfully');
+        context.router.pop();
+      } else {
+        EasyLoading.showError(response.body);
+        context.router.pop();
+      }
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      log(e.toString());
+      context.router.pop();
+    }
+  }
+
+  void getallusers() async {
+    try {
+      final url = Uri.parse(getalluserapi);
+
+      final response = await http.get(
+        url,
+      );
+
+      if (response.statusCode == 200) {
+        var alldata = getallusersFromJson(response.body);
+        _getalluserlist = alldata;
+        update();
+      } else {
+        EasyLoading.showError('Error : ${response.body.toString()}');
+      }
+    } catch (e) {
+      EasyLoading.showError('Error : ${e.toString()}');
+      log(e.toString());
+    }
+  }
+
   void adminlogin({required String email, required String password}) async {
     _showLoadingDialog();
+    await Future.delayed(const Duration(seconds: 2));
     log(password);
     final url = Uri.parse(adminloginapi); // Example endpoint
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -718,12 +833,13 @@ class GetxTapController extends GetxController {
         _islogin = true;
         update();
         checkloginstatus();
+        getallusers();
         context.router.replaceNamed('/');
         EasyLoading.showSuccess('Login Successfully');
       } else {
         // ignore: use_build_context_synchronously
         context.router.maybePop();
-        EasyLoading.showError(response.body);
+        EasyLoading.showError('sfsafas ${response.body}');
       }
     } catch (e) {
       // ignore: use_build_context_synchronously
